@@ -485,23 +485,28 @@
 <div class="logo-container">
     <img src="https://teknisk-kompetens.github.io/recommerce/rebrand.svg" alt="re:commerce logo">
 </div>
-
+      </div>
 <style>
 /* Föräldra-diven */
 .logo-container {
-    width: 100%; /* Eller en specifik bredd, t.ex. 300px */
-    max-width: 100px; /* Maximal bredd för logotypen */
-    height: auto; /* Automatisk höjd baserat på bredden */
-    display: inline-block; /* Behåll layouten */
+    width: 300px; /* Sätt en fast bredd eller maxbredd */
+    height: 100px; /* Sätt en fast höjd */
+    overflow: hidden; /* Hindra SVG:n från att "läcka ut" */
+    display: flex; /* Flexbox för att centrera SVG:n */
+    justify-content: center; /* Centrera horisontellt */
+    align-items: center; /* Centrera vertikalt */
+    background-color: #f9f9f9; /* Valfri bakgrundsfärg */
 }
 
 /* SVG:n */
 .logo-container img {
-    width: 100%; /* Anpassa till föräldra-divens bredd */
-    height: auto; /* Bevara proportionerna */
+    max-width: 100%; /* Anpassa till föräldra-divens bredd */
+    max-height: 100%; /* Anpassa till föräldra-divens höjd */
+    object-fit: contain; /* Bevara proportionerna */
     display: block; /* Ta bort extra mellanrum under bilden */
 }
 </style>
+          
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
