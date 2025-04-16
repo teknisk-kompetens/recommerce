@@ -1,0 +1,1145 @@
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataStandard - Expertis inom datakvalitet och produkthantering</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a5276;
+            --primary-light: #2980b9;
+            --accent: #e67e22;
+            --text: #333;
+            --text-light: #7f8c8d;
+            --bg-light: #f9f9f9;
+            --bg-white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: var(--text);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--bg-white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary);
+        }
+        
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Features */
+        .features {
+            padding: 80px 0;
+            background-color: var(--bg-white);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: var(--bg-white);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        /* Services */
+        .services {
+            padding: 80px 0;
+            background-color: var(--bg-light);
+        }
+        
+        .services-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-box {
+            background-color: var(--bg-white);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .service-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-icon {
+            font-size: 30px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: inline-block;
+            padding: 20px;
+            background-color: rgba(41, 128, 185, 0.1);
+            border-radius: 50%;
+        }
+        
+        .service-box h3 {
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        /* Dashboard Preview */
+        .dashboard-preview {
+            padding: 80px 0;
+            background-color: var(--bg-white);
+        }
+        
+        .dashboard-container {
+            position: relative;
+            margin-top: 40px;
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+            overflow: hidden;
+            background-color: var(--bg-white);
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .dashboard-header h3 {
+            font-size: 20px;
+        }
+        
+        .dashboard-tabs {
+            display: flex;
+            background-color: #f0f3f7;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .tab.active {
+            background-color: var(--bg-white);
+            border-bottom: 3px solid var(--accent);
+            font-weight: 600;
+        }
+        
+        .dashboard-content {
+            padding: 30px;
+            min-height: 400px;
+        }
+        
+        .segment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .segment-card {
+            background-color: var(--bg-white);
+            border-radius: var(--radius);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .segment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .segment-header {
+            padding: 15px;
+            background-color: var(--primary-light);
+            color: white;
+        }
+        
+        .segment-content {
+            padding: 20px;
+        }
+        
+        .segment-content h4 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .segment-content ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .segment-content li {
+            margin-bottom: 5px;
+        }
+        
+        /* Case Studies */
+        .case-studies {
+            padding: 80px 0;
+            background-color: var(--bg-light);
+        }
+        
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .case-card {
+            background-color: var(--bg-white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .case-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .case-img {
+            height: 200px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: var(--text-light);
+        }
+        
+        .case-content {
+            padding: 25px;
+        }
+        
+        .case-content h3 {
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        .case-content .category {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: rgba(41, 128, 185, 0.1);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        /* Contact */
+        .contact {
+            padding: 80px 0;
+            background-color: var(--bg-white);
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+        
+        .contact-info h3 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: var(--primary);
+        }
+        
+        .contact-details {
+            margin-bottom: 30px;
+        }
+        
+        .contact-item {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .contact-icon {
+            font-size: 20px;
+            color: var(--accent);
+            margin-right: 15px;
+            min-width: 25px;
+        }
+        
+        .contact-form {
+            background-color: var(--bg-light);
+            padding: 30px;
+            border-radius: var(--radius);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-light);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .btn-submit {
+            background-color: var(--primary);
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            padding: 12px 25px;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+        
+        .btn-submit:hover {
+            background-color: var(--primary-light);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-col h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-right: 10px;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            background-color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Dashboard Section */
+        .dashboard-section {
+            padding: 40px 0;
+        }
+        
+        .dashboard-view {
+            border-radius: var(--radius);
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: var(--shadow);
+        }
+        
+        .dash-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dash-header h2 {
+            font-size: 24px;
+        }
+        
+        .dash-nav {
+            background-color: #f5f7fa;
+            display: flex;
+            border-bottom: 1px solid #e1e5eb;
+        }
+        
+        .dash-nav-item {
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .dash-nav-item.active {
+            background-color: #fff;
+            border-bottom: 3px solid var(--accent);
+        }
+        
+        .dash-content {
+            padding: 30px;
+        }
+        
+        .dash-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .dash-card {
+            background-color: white;
+            padding: 25px 20px;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        
+        .dash-card-icon {
+            font-size: 36px;
+            color: var(--primary);
+            margin-right: 20px;
+        }
+        
+        .dash-card-info h3 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .dash-card-info p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .section-title h2 {
+                font-size: 30px;
+            }
+            
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--bg-white);
+                flex-direction: column;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                padding: 20px 0;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 0;
+                padding: 10px 20px;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .contact-grid, .footer-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <i class="fas fa-database"></i>
+                    DataStandard
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#home" class="active">Hem</a></li>
+                    <li><a href="#features">Fördelar</a></li>
+                    <li><a href="#services">Tjänster</a></li>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#case-studies">Kundcase</a></li>
+                    <li><a href="#contact">Kontakt</a></li>
+                </ul>
+                <div class="mobile-menu" id="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Datakvalitet och produkthantering för e-handel</h1>
+            <p>Vi hjälper er att förbättra er produktdata, optimera hanteringen av varor och öka lönsamheten genom specialanpassade lösningar.</p>
+            <a href="#contact" class="btn">Kontakta oss</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Våra fördelar</h2>
+                <p>Vi erbjuder skräddarsydda lösningar som förbättrar er produktdatakvalitet och effektiviserar er e-handel</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Ökad försäljning</h3>
+                    <p>Bättre produktdata leder till högre konverteringsgrad och ökad försäljning genom förbättrad kundupplevelse.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <h3>Minskade returer</h3>
+                    <p>Tydligare produktinformation och bättre bilder gör att kunderna vet vad de köper, vilket minskar returerna.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Bättre sökbarhet</h3>
+                    <p>Strukturerad produktdata förbättrar sökresultaten både på din egen webbshop och i externa sökmotorer.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Våra tjänster</h2>
+                <p>Anpassade lösningar för att optimera er produkthantering och förbättra datakvaliteten</p>
+            </div>
+            <div class="services-container">
+                <div class="service-box">
+                    <span class="service-icon">
+                        <i class="fas fa-tags"></i>
+                    </span>
+                    <h3>Produktdataanalys</h3>
+                    <p>Vi genomför en grundlig analys av er nuvarande produktdata för att identifiera styrkor och förbättringsområden.</p>
+                </div>
+                
+                <div class="service-box">
+                    <span class="service-icon">
+                        <i class="fas fa-camera"></i>
+                    </span>
+                    <h3>Bildoptimering</h3>
+                    <p>Professionell optimering av produktbilder för bättre kundupplevelse och snabbare webbshop.</p>
+                </div>
+                
+                <div class="service-box">
+                    <span class="service-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </span>
+                    <h3>PIM-implementering</h3>
+                    <p>Hjälper er implementera eller optimera er Product Information Management-lösning.</p>
+                </div>
+                
+                <div class="service-box">
+                    <span class="service-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </span>
+                    <h3>Utbildning</h3>
+                    <p>Skräddarsydda utbildningar för er personal inom produktdatakvalitet och hantering av produktinformation.</p>
+                </div>
+                
+                <div class="service-box">
+                    <span class="service-icon">
+                        <i class="fas fa-sitemap"></i>
+                    </span>
+                    <h3>Kategoristruktur</h3>
+                    <p>Utveckling av logisk och kundvänlig kategoristruktur för bättre navigation och sökbarhet.</p>
+                </div>
+                
+                <div class="service-box">
+                    <span class="service-icon">
+                        <i class="fas fa-language"></i>
+                    </span>
+                    <h3>Innehållsoptimering</h3>
+                    <p>Förbättring av produktbeskrivningar och annan information för ökad konvertering och SEO.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard-section" id="dashboard">
+        <div class="container">
+            <div class="section-title">
+                <h2>Våra kundsegment</h2>
+                <p>Vi erbjuder skräddarsydda lösningar för olika typer av verksamheter</p>
+            </div>
+            
+            <div class="dashboard-view">
+                <div class="dash-header">
+                    <h2>DataStandard Solutions Dashboard</h2>
+                    <div class="dash-actions">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                </div>
+                
+                <div class="dash-nav">
+                    <div class="dash-nav-item active" data-tab="overview">Översikt</div>
+                    <div class="dash-nav-item" data-tab="segments">Kundsegment</div>
+                    <div class="dash-nav-item" data-tab="services">Tjänster</div>
+                </div>
+                
+                <div class="dash-content">
+                    <div class="dash-cards">
+                        <div class="dash-card">
+                            <div class="dash-card-icon">
+                                <i class="fas fa-store"></i>
+                            </div>
+                            <div class="dash-card-info">
+                                <h3>6</h3>
+                                <p>Kundsegment</p>
+                            </div>
+                        </div>
+                        <div class="dash-card">
+                            <div class="dash-card-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <div class="dash-card-info">
+                                <h3>15+</h3>
+                                <p>Tjänster</p>
+                            </div>
+                        </div>
+                        <div class="dash-card">
+                            <div class="dash-card-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="dash-card-info">
+                                <h3>100+</h3>
+                                <p>Nöjda kunder</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="segment-grid">
+                        <div class="segment-card">
+                            <div class="segment-header">
+                                <h3>E-handel</h3>
+                            </div>
+                            <div class="segment-content">
+                                <h4>Utmaningar:</h4>
+                                <ul>
+                                    <li>Strukturering av stor mängd produktdata</li>
+                                    <li>Hantering av bilder och media</li>
+                                    <li>Reducering av returgrad</li>
+                                </ul>
+                                <a href="#" class="btn">Läs mer</a>
+                            </div>
+                        </div>
+                        
+                        <div class="segment-card">
+                            <div class="segment-header">
+                                <h3>Omnichannel</h3>
+                            </div>
+                            <div class="segment-content">
+                                <h4>Utmaningar:</h4>
+                                <ul>
+                                    <li>Synkronisering mellan kanaler</li>
+                                    <li>Konsekvent produktinformation</li>
+                                    <li>Integrationer mellan system</li>
+                                </ul>
+                                <a href="#" class="btn">Läs mer</a>
+                            </div>
+                        </div>
+                        
+                        <div class="segment-card">
+                            <div class="segment-header">
+                                <h3>Tillverkare</h3>
+                            </div>
+                            <div class="segment-content">
+                                <h4>Utmaningar:</h4>
+                                <ul>
+                                    <li>Distribution av produktdata till återförsäljare</li>
+                                    <li>Standardisering av teknisk information</li>
+                                    <li>Hantering av produktfamiljer</li>
+                                </ul>
+                                <a href="#" class="btn">Läs mer</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Studies -->
+    <section class="case-studies" id="case-studies">
+        <div class="container">
+            <div class="section-title">
+                <h2>Kundcase</h2>
+                <p>Se hur vi har hjälpt våra kunder att förbättra sin e-handel och produkthantering</p>
+            </div>
+            
+            <div class="case-grid">
+                <div class="case-card">
+                    <div class="case-img">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <div class="case-content">
+                        <span class="category">E-handel - Mode</span>
+                        <h3>ModeBoutique AB</h3>
+                        <p>Vi hjälpte ModeBoutique att strukturera produktdata och förbättra produktbeskrivningar vilket ledde till 35% minskning av returgraden.</p>
+                        <a href="#" class="btn">Läs hela caset</a>
+                    </div>
+                </div>
+                
+                <div class="case-card">
+                    <div class="case-img">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <div class="case-content">
+                        <span class="category">Elektronik</span>
+                        <h3>TechStore Sverige</h3>
+                        <p>Genom implementering av vårt PIM-system ökade TechStore sin produktionseffektivitet med 60% och minskade time-to-market för nya produkter.</p>
+                        <a href="#" class="btn">Läs hela caset</a>
+                    </div>
+                </div>
+                
+                <div class="case-card">
+                    <div class="case-img">
+                        <i class="fas fa-couch"></i>
+                    </div>
+                    <div class="case-content">
+                        <span class="category">Möbler</span>
+                        <h3>Hemma Inredning</h3>
+                        <p>Vi optimerade Hemma Inrednings bildhantering och implementerade 3D-visualiseringar vilket ökade konverteringsgraden med 28%.</p>
+                        <a href="#" class="btn">Läs hela caset</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Kontakta oss</h2>
+                <p>Låt oss diskutera hur vi kan hjälpa er verksamhet att förbättra produktdata och kundupplevelse</p>
+            </div>
+            
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Kontaktinformation</h3>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <p>Storgatan 1, 123 45 Stockholm</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <p>08-123 45 67</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <p>info@datastandard.se</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3>Följ oss</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Namn</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">E-post</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="company">Företag</label>
+                            <input type="text" id="company" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Meddelande</label>
+                            <textarea id="message" class="form-control" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-submit">Skicka meddelande</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h4>DataStandard</h4>
+                    <p>Vi erbjuder expertis inom datakvalitet och produkthantering för e-handelsföretag som vill förbättra kundupplevelsen och öka sin lönsamhet.</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Tjänster</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Produktdataanalys</a></li>
+                        <li><a href="#">Bildoptimering</a></li>
+                        <li><a href="#">PIM-implementering</a></li>
+                        <li><a href="#">Kategoristruktur</a></li>
+                        <li><a href="#">Innehållsoptimering</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Företag</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Om oss</a></li>
+                        <li><a href="#">Vårt team</a></li>
+                        <li><a href="#">Karriär</a></li>
+                        <li><a href="#">Blogg</a></li>
+                        <li><a href="#">Kontakt</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Nyhetsbrev</h4>
+                    <p>Prenumerera på vårt nyhetsbrev för att få de senaste uppdateringarna och tips.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Din e-postadress" class="form-control" style="margin-bottom: 10px;">
+                        <button type="submit" class="btn-submit">Prenumerera</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 DataStandard. Alla rättigheter förbehållna.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Basic Navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Menu Toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                });
+            }
+            
+            // Smooth Scrolling for Navigation Links
+            const links = document.querySelectorAll('a[href^="#"]');
+            
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 70,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Close mobile menu if open
+                        navLinks.classList.remove('active');
+                    }
+                });
+            });
+            
+            // Dashboard Tabs
+            const dashNavItems = document.querySelectorAll('.dash-nav-item');
+            
+            dashNavItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    dashNavItems.forEach(tab => tab.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Here you would normally toggle content visibility
+                    const tabName = this.getAttribute('data-tab');
+                    console.log('Switched to tab:', tabName);
+                    
+                    // For a full implementation, you would show/hide content sections
+                    // based on the selected tab
+                });
+            });
+            
+            // Form Submission (Prevent default for demo)
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Tack för ditt meddelande! Vi återkommer så snart som möjligt.');
+                    this.reset();
+                });
+            }
+            
+            // Newsletter Form
+            const newsletterForm = document.querySelector('.newsletter-form');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Tack för din prenumeration!');
+                    this.reset();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
