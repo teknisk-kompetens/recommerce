@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>re:commerce Kundsegment Use Cases</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 30px;
+        }
+        
+        /* Segment Navigation */
+        .segment-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+        .segment-button {
+            padding: 10px 15px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            color: white;
+            border: none;
+            opacity: 0.8;
+        }
+        .segment-button:hover {
+            opacity: 1;
+            transform: translateY(-3px);
+        }
+        .segment-button.active {
+            opacity: 1;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Segment Colors */
+        .fashion { background-color: #e74c3c; }
+        .tech { background-color: #3498db; }
+        .omnichannel { background-color: #9b59b6; }
+        .b2b { background-color: #27ae60; }
+        .marketplace { background-color: #f39c12; }
+        .home { background-color: #16a085; }
+        .sports { background-color: #2980b9; }
+        .grocery { background-color: #8e44ad; }
+        .beauty { background-color: #e67e22; }
+        .diy { background-color: #7f8c8d; }
+        
+        /* Segment Content */
+        .segment-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .segment-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Segment Header */
+        .segment-header {
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        .segment-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .segment-header-content {
+            position: relative;
+            z-index: 2;
+        }
+        .segment-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .segment-description {
+            font-size: 1.1rem;
+            max-width: 800px;
+        }
+        
+        /* Pain Points Section */
+        .pain-points {
+            margin-bottom: 30px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        .pain-points-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .pain-point {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .pain-point:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .pain-point-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #e74c3c;
+        }
+        .pain-point-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .pain-point-description {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        /* Use Cases Section */
+        .use-cases {
+            margin-bottom: 30px;
+        }
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        .use-case {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .use-case:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .use-case-header {
+            padding: 15px;
+            color: white;
+        }
+        .use-case-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .use-case-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .tech-level {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            background-color: rgba(255,255,255,0.2);
+        }
+        .use-case-body {
+            padding: 15px;
+            background-color: white;
+        }
+        .challenge-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+        .challenge-description {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f1f1f1;
+        }
+        .solution-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+        .service-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .service-pill {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            background-color: #3498db;
+            color: white;
+        }
+        .results-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #f39c12;
+            margin-bottom: 10px;
+        }
+        .results-list {
+            list-style-type: none;
+        }
+        .results-list li {
+            padding: 5px 0;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+        .results-list li:before {
+            content: "↗";
+            color: #f39c12;
+            margin-right: 8px;
+        }
+        
+        /* Results Section */
+        .results-section {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .result-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        .result-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        /* Testimonial */
+        .testimonial {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .testimonial:before {
+            content: """;
+            font-size: 5rem;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            color: rgba(52, 152, 219, 0.1);
+        }
+        .testimonial-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #34495e;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .testimonial-author {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #3498db;
+        }
+        
+        /* Related Segments */
+        .related-segments {
+            margin-top: 50px;
+        }
+        .related-segments-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .related-segment-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .use-cases-grid, .pain-points-grid, .results-grid {
+                grid-template-columns: 1fr;
+            }
+            .segment-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            .segment-button {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>re:commerce: Branschspecifika Use Cases</h1>
+            <p class="subtitle">Hur våra kärntjänster löser konkreta utmaningar för tio prioriterade kundsegment</p>
+        </header>
+        
+        <div class="main-content">
+            <!-- Segment Navigation -->
+            <div class="segment-nav">
+                <button class="segment-button fashion active" data-segment="fashion">Modevarumärken</button>
+                <button class="segment-button tech" data-segment="tech">Elektronikåterförsäljare</button>
+                <button class="segment-button omnichannel" data-segment="omnichannel">Omnichannel-detaljhandel</button>
+                <button class="segment-button b2b" data-segment="b2b">B2B-leverantörer</button>
+                <button class="segment-button marketplace" data-segment="marketplace">Marknadsplatssäljare</button>
+                <button class="segment-button home" data-segment="home">Möbel & Inredning</button>
+                <button class="segment-button sports" data-segment="sports">Sporthandel</button>
+                <button class="segment-button grocery" data-segment="grocery">Livsmedelsbutiker</button>
+                <button class="segment-button beauty" data-segment="beauty">Skönhet & Kosmetika</button>
+                <button class="segment-button diy" data-segment="diy">Bygg & DIY</button>
+            </div>
+            
+            <!-- Fashion Segment Content -->
+            <div class="segment-content active" id="fashion-content">
+                <div class="segment-header fashion">
+                    <div class="segment-overlay"></div>
+                    <div class="segment-header-content">
+                        <h2 class="segment-title">Modevarumärken & E-handlare</h2>
+                        <p class="segment-description">Modeföretag som säljer kläder, skor och accessoarer online med fokus på säsongsbaserade kollektioner och trendig stil.</p>
+                    </div>
+                </div>
+                
+                <!-- Pain Points Section -->
+                <div class="pain-points">
+                    <h3 class="section-title">Vanliga utmaningar</h3>
+                    <div class="pain-points-grid">
+                        <div class="pain-point">
+                            <div class="pain-point-icon">📦</div>
+                            <h4 class="pain-point-title">Hög returgrad</h4>
+                            <p class="pain-point-description">Returnerade produkter pga storleksavvikelser och felaktiga förväntningar kostar både pengar och kundnöjdhet.</p>
+                        </div>
+                        
+                        <div class="pain-point">
+                            <div class="pain-point-icon">🔄</div>
+                            <h4 class="pain-point-title">Snabba kollektionsbyten</h4>
+                            <p class="pain-point-description">Tidskrävande processen att uppdatera produktinformation för nya kollektioner varje säsong.</p>
+                        </div>
+                        
+                        <div class="pain-point">
+                            <div class="pain-point-icon">📏</div>
+                            <h4 class="pain-point-title">Storleksinkonsistens</h4>
+                            <p class="pain-point-description">Bristande storleksstandardisering mellan märken och produkttyper skapar förvirring.</p>
+                        </div>
+                        
+                        <div class="pain-point">
+                            <div class="pain-point-icon">🌍</div>
+                            <h4 class="pain-point-title">Internationell expansion</h4>
+                            <p class="pain-point-description">Svårigheter att anpassa produktdata för olika marknader, språk och lokal användning.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Use Cases Section -->
+                <div class="use-cases">
+                    <h3 class="section-title">Prioriterade Use Cases</h3>
+                    <div class="use-cases-grid">
+                        <!-- Use Case 1 -->
+                        <div class="use-case">
+                            <div class="use-case-header fashion">
+                                <h4 class="use-case-title">Automatiserad returreducering</h4>
+                                <p class="use-case-subtitle">Minska returer genom bättre produktdata</p>
+                                <span class="tech-level">Teknisk nivå: Låg</span>
+                            </div>
+                            <div class="use-case-body">
+                                <h5 class="challenge-title">Utmaning</h5>
+                                <p class="challenge-description">30% av alla beställningar returneras på grund av storleksproblem och felaktiga kundförväntningar, vilket kostar företaget över 1 miljon SEK årligen.</p>
+                                
+                                <h5 class="solution-title">Lösning: Våra kärntjänster</h5>
+                                <div class="service-pills">
+                                    <span class="service-pill">Innehållsoptimering</span>
+                                    <span class="service-pill">Datastrukturering</span>
+                                </div>
+                                <p>Implementera standardiserade storleksguider med exakta mått, förbättra produktbeskrivningar med detaljerad passinformation och material, samt införa konsekvent kategorisering.</p>
+                                
+                                <h5 class="results-title">Förväntade resultat</h5>
+                                <ul class="results-list">
+                                    <li>30-35% minskning av storleksrelaterade returer</li>
+                                    <li>15% ökning av kundnöjdhet</li>
+                                    <li>Kostnadsbesparingar på 300,000+ SEK årligen</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Use Case 2 -->
+                        <div class="use-case">
+                            <div class="use-case-header fashion">
+                                <h4 class="use-case-title">Säsongseffektiv kollektionshantering</h4>
+                                <p class="use-case-subtitle">Snabbare time-to-market för nya kollektioner</p>
+                                <span class="tech-level">Teknisk nivå: Mellan</span>
+                            </div>
+                            <div class="use-case-body">
+                                <h5 class="challenge-title">Utmaning</h5>
+                                <p class="challenge-description">Det tar i genomsnitt 2-3 veckor att förbereda och publicera nya kollektioner i webbutiken, vilket resulterar i försenad lansering och missade försäljningsmöjligheter.</p>
+                                
+                                <h5 class="solution-title">Lösning: Våra kärntjänster</h5>
+                                <div class="service-pills">
+                                    <span class="service-pill">Automatisering</span>
+                                    <span class="service-pill">Innehållsoptimering</span>
+                                </div>
+                                <p>Implementera mallar och automatiserade flöden för snabb inmatning av nya produkter, intelligent innehållsgenerering med AI och massuppdateringsverktyg för ett helt sortiment.</p>
+                                
+                                <h5 class="results-title">Förväntade resultat</h5>
+                                <ul class="results-list">
+                                    <li>70% snabbare time-to-market (från veckor till dagar)</li>
+                                    <li>20% ökning i försäljning genom snabbare lanseringar</li>
+                                    <li>50% minskning av manuellt arbete för produktteamet</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Use Case 3 -->
+                        <div class="use-case">
+                            <div class="use-case-header fashion">
+                                <h4 class="use-case-title">Visuell merchandising-optimering</h4>
+                                <p class="use-case-subtitle">Förbättrad produktpresentation som ökar konvertering</p>
+                                <span class="tech-level">Teknisk nivå: Hög</span>
+                            </div>
+                            <div class="use-case-body">
+                                <h5 class="challenge-title">Utmaning</h5>
+                                <p class="challenge-description">Svårt att visa hur kläder passar och kombineras, vilket leder till låg konverteringsgrad (under branschstandard) och högre returfrekvens.</p>
+                                
+                                <h5 class="solution-title">Lösning: Våra kärntjänster</h5>
+                                <div class="service-pills">
+                                    <span class="service-pill">Avancerad visualisering</span>
+                                    <span class="service-pill">AI-driven produktdatahantering</span>
+                                </div>
+                                <p>Implementera 360-gradersvisning, virtuell provning med AI, automatiska outfit-rekommendationer och stylingförslag baserade på tidigare köp och beteende.</p>
+                                
+                                <h5 class="results-title">Förväntade resultat</h5>
+                                <ul class="results-list">
+                                    <li>25% ökad konverteringsgrad</li>
+                                    <li>40% ökning i genomsnittlig ordervärde</li>
+                                    <li>20% minskning av returer relaterade till passform</li>
+                                    <li>15% ökning av återkommande kunder</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Results Section -->
+                <div class="results-section">
+                    <h3 class="section-title">Typiska resultat för modeföretag</h3>
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <div class="result-value">-30%</div>
+                            <p class="result-label">Minskning av returer</p>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-value">+22%</div>
+                            <p class="result-label">Ökning av konverteringsgrad</p>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-value">70%</div>
+                            <p class="result-label">Snabbare produktuppdateringar</p>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-value">+35%</div>
+                            <p class="result-label">Ökning av genomsnittligt ordervärde</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial -->
+                <div class="testimonial">
+                    <p class="testimonial-text">"Vår största utmaning var storleksrelaterade returer - de kostade oss över 800 000 kr per år. re:commerce hjälpte oss implementera detaljerade storleksguider och bättre produktbeskrivningar, vilket minskade våra returer med 35% på bara tre månader. Dessutom fick vi en 22% ökning i konverteringsgrad. Det är de bästa pengarna vi har spenderat på vår e-handel!"</p>
+                    <p class="testimonial-author">Malin Andersson, E-handelschef på Nordic Fashion AB</p>
+                </div>
+                
+                <!-- Related Segments -->
+                <div class="related-segments">
+                    <h3 class="related-segments-title">Relaterade kundsegment</h3>
+                    <div class="related-segment-buttons">
+                        <button class="segment-button beauty" data-segment="beauty">Skönhet & Kosmetika</button>
+                        <button class="segment-button sports" data-segment="sports">Sporthandel</button>
+                        <button class="segment-button marketplace" data-segment="marketplace">Marknadsplatssäljare</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tech Segment Content -->
+            <div class="segment-content" id="tech-content">
+                <div class="segment-header tech">
+                    <div class="segment-overlay"></div>
+                    <div class="segment-header-content">
+                        <h2 class="segment-title">Elektronik- & Teknikåterförsäljare</h2>
+                        <p class="segment-description">Företag som säljer hemelektronik, datorer, mobiltelefoner och tekniska produkter med komplexa specifikationer och ständigt nya modeller.</p>
+                    </div>
+                </div>
+                
+                <!-- Pain Points Section -->
+                <div class="pain-points">
+                    <h3 class="section-title">Vanliga utmaningar</h3>
+                    <div class="pain-points-grid">
+                        <div class="pain-point">
+                            <div class="pain-point-icon">📋</div>
+                            <h4 class="pain-point-title">Komplexa specifikationer</h4>
+                            <p class="pain-point-description">Svårt att hantera och presentera tusentals tekniska detaljer på ett konsekvent sätt.</p>
+                        </div>
+                        
+                        <div class="pain-point">
+                            <div class="pain-point-icon">🔄</div>
+                            <h4 class="pain-point-title">Snabb produktomsättning</h4>
+                            <p class="pain-point-description">Nya produktmodeller lanseras kontinuerligt vilket kräver snabba uppdateringar.</p>
+                        </div>
+                        
+                        <div class="pain-point">
+                            <div class="pain-point-icon">🔌</div>
+                            <h4 class="pain-point-title">Kompatibilitetsinformation</h4>
+                            <p class="pain-point-description">Svårt att hantera och presentera vilka produkter som fungerar med varandra.</p>
+                        </div>
+                        
+                        <div class="pain-point">
+                            <div class="pain-point-icon">❓</div>
+                            <h4 class="pain-point-title">Teknisk kundtjänst</h4>
+                            <p class="pain-point-description">Hög belastning på kundtjänst som måste svara på tekniska frågor.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Use Cases Section -->
+                <div class="use-cases">
+                    <h3 class="section-title">Prioriterade Use Cases</h3>
+                    <div class="use-cases-grid">
+                        <!-- Use Case 1 -->
+                        <div class="use-case">
+                            <div class="use-case-header tech">
+                                <h4 class="use-case-title">Strukturerade tekniska specifikationer</h4>
+                                <p class="use-case-subtitle">Enhetlig presentation av komplexa produktdetaljer</p>
+                                <span class="tech-level">Teknisk nivå: Låg</span>
+                            </div>
+                            <div class="use-case-body">
+                                <h5 class="challenge-title">Utmaning</h5>
+                                <p class="challenge-description">Inkonsekventa och ostrukturerade produktspecifikationer som förvirrar kunderna, försvårar jämförelser och leder till felköp.</p>
+                                
+                                <h5 class="solution-title">Lösning: Våra kärntjänster</h5>
+                                <div class="service-pills">
+                                    <span class="service-pill">Datastrukturering</span>
+                                    <span class="service-pill">Innehållsoptimering</span>
+                                </div>
+                                <p>Standardisera alla tekniska specifikationer med konsekventa attribut, skapa jämförelsetabeller och förbättra beskrivningar med fokus på användningsområden istället för bara tekniska detaljer.</p>
+                                
+                                <h5 class="results-title">Förväntade resultat</h5>
+                                <ul class="results-list">
+                                    <li>25% minskning av tekniska returer</li>
+                                    <li>18% ökning i konverteringsgrad</li>
+                                    <li>30% minskning av kundtjänstärenden gällande specifikationer</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Use Case 2 -->
+                        <div class="use-case">
+                            <div class="use-case-header tech">
+                                <h4 class="use-case-title">Kompatibilitetsguider</h4>
+                                <p class="use-case-subtitle">Tydlig vägledning för produktkompatibilitet</p>
+                                <span class="tech-level">Teknisk nivå: Mellan</span>
+                            </div>
+                            <div class="use-case-body">
+                                <h5 class="challenge-title">Utmaning</h5>
+                                <p class="challenge-description">Kunder köper tillbehör som inte är kompatibla med deras produkter, vilket leder till returer, missnöje och ökade kundservicekostnader.</p>
+                                
+                                <h5 class="solution-title">Lösning: Våra kärntjänster</h5>
+                                <div class="service-pills">
+                                    <span class="service-pill">Dynamisk produktpresentation</span>
+                                    <span class="service-pill">Datastrukturering</span>
+                                </div>
+                                <p>Skapa dynamiska kompatibilitetsrelationer mellan produkter, implementera interaktiva guider som visar kompatibla produkter och automatiserade rekommendationer av tillbehör.</p>
+                                
+                                <h5 class="results-title">Förväntade resultat</h5>
+                                <ul class="results-list">
+                                    <li>40% minskning av kompatibilitetsrelaterade returer</li>
+                                    <li>35% ökning i tillbehörsförsäljning</li>
+                                    <li>20% högre genomsnittligt ordervärde</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Use Case 3 -->
+                        <div class="use-case">
+                            <div class="use-case-header tech">
+                                <h4 class="use-case-title">Automatiserade produktlanseringar</h4>
+                                <p class="use-case-subtitle">Snabb integration av nya produktmodeller</p>
+                                <span class="tech-level">Teknisk nivå: Hög</span>
+                            </div>
+                            <div class="use-case-body">
+                                <h5 class="challenge-title">Utmaning</h5>
+                                <p class="challenge-description">Manuell och tidskrävande process för att lägga upp nya produktmodeller när de lanseras, vilket orsakar förseningar och missade försäljningsmöjligheter.</p>
+                                
+                                <h5 class="solution-title">Lösning: Våra kärntjänster</h5>
+                                <div class="service-pills">
+                                    <span class="service-pill">API-driven produktdatahantering</span>
+                                    <span class="service-pill">Automatisering</span>
+                                </div>
+                                <p>Skapa automatiserade flöden från leverantörers data-feeds, implementera AI-driven kategorisering och taggning samt automatiserad prisstrategi baserad på marknadsdata.</p>
+                                
+                                <h5 class="results-title">Förväntade resultat</h5>
+                                <ul class="results-list">
+                                    <li>90% snabbare produktuppdateringar</li>
+                                    <li>15% ökad försäljning av nya produkter</li>
+                                    <li>60% minskning av manuellt administrativt arbete</li>
+                                    <li>Konkurrenskraftig prisposition på marknaden</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Results Section -->
+                <div class="results-section">
+                    <h3 class="section-title">Typiska resultat för teknikåterförsäljare</h3>
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <div class="result-value">-35%</div>
+                            <p class="result-label">Reducerade tekniska returer</p>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-value">+32%</div>
+                            <p class="result-label">Ökad tillbehörsförsäljning</p>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-value">90%</div>
+                            <p class="result-label">Snabbare produktuppdateringar</p>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-value">-42%</div>
+                            <p class="result-label">Färre kundserviceärenden</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial -->
+                <div class="testimonial">
+                    <p class="testimonial-text">"Tidigare tog det oss 2-3 dagar att lägga upp en ny produktmodell med alla specifikationer och bilder. Efter att ha implementerat DataStandards automatiserade flöden tar det nu bara några timmar. Vi missade aldrig mer lanseringsfönster för nya telefoner eller datorer, och vår kompatibilitetsguide har ökat vår tillbehörsförsäljning med 32%. Det har revolutionerat vår e-handel och gett oss ett tydligt försprång mot konkurrenterna."</p>
+                    <p class="testimonial-author">Anders Lindqvist, Digital chef på TechStore AB</p>
+                </div>
+                
+                <!-- Related Segments -->
+                <div class="related-segments">
+                    <h3 class="related-segments-title">Relaterade kundsegment</h3>
+                    <div class="related-segment-buttons">
+                        <button class="segment-button marketplace" data-segment="marketplace">Marknadsplatssäljare</button>
+                        <button class="segment-button b2b" data-segment="b2b">B2B-leverantörer</button>
+                        <button class="segment-button diy" data-segment="diy">Bygg & DIY</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Omnichannel Segment Content -->
+            <div class="segment-content" id="omnichannel-content">
+                <div class="segment-header omnichannel">
+                    <div class="segment-overlay"></div>
+                    <div class="segment-header-content">
+                        <h2 class="segment-title">Omnichannel-detaljhandel</h2>
+                        <p class="segment-description">Detaljhandelsföretag som kombinerar fysiska butiker med e-handel och strävar efter en sömlös kundupplevelse i alla kanaler.</p>
+                    </div>
+                </div>
+                
+                <!-- Pain Points Section -->
+                <div class="pain-points">
+                    <h3 class="section-title">Vanliga utmaningar</h3>
+                    <div class="pain-points-grid">
+                        <div class="pain-point">
+                            <div class="pain-point-icon">📊</div>
+                            <h4 class="pain-point-title">Inkonsekvent produktdata</h4>
+                            <p class="pain-point-description">Olika information online och i butik skapar förvirring och försämrar kundupplevelsen.</p>
+                        </div>
+                        
+                        <div class="pain-point">
+                            <div class="pain-point-icon">🔄</div>
+                            <h4 class="pain-point-title">Lagersynkronisering</h4>
+                            <p class="pain-point-description">Utmaningar med att hålla lagersaldon uppdaterade i realtid mellan butik och online.</p>
+                        </div>
+                        
+                        <div class="pain-point">
+                            <div class="pain-point-icon">🔗</div>
+                            <h4 class="pain-point-title">Silos mellan kanaler</h4>
+                            <p class="pain-point-description">Separata system för butik och e-handel som inte kommunicerar effektivt.</p>
+                        </div>
+                        
+                        <div class="pain-point">
+                            <div class="pain-point-icon">💰</div>
+                            <h4 class="pain-point-title">Kanalspecifik prissättning</h4>
+                            <p class="pain-point-description">Utmaningar med att hantera olika prisstrategier för olika kanaler.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Use Cases Section -->
+                <div class="use-cases">
+                    <h3 class="section-title">Prioriterade Use Cases</h3>
+                    <div class="use-cases-grid">
+                        <!-- Use Case 1 -->
+                        <div class="use-case">
+                            <div class="use-case-header omnichannel">
+                                <h4 class="use-case-title">Enhetlig produktpresentation</h4>
+                                <p class="use-case-subtitle">Konsekvent information i alla kanaler</p>
+                                <span class="tech-level">Teknisk nivå: Låg</span>
+                            </div>
+                            <div class="use-case-body">
+                                <h5 class="challenge-title">Utmaning</h5>
+                                <p class="challenge-description">Kunderna möter olika produktinformation i butik jämfört med online, vilket skapar förvirring och minskar förtroendet för varumärket.</p>
+                                
+                                <h5 class="solution-title">Lösning: Våra kärntjänster</h5>
+                                <div class="service-pills">
+                                    <span class="service-pill">Datastrukturering</span>
+                                    <span class="service-pill">Innehållsoptimering</span>
+                                </div>
+                                <p>Skapa en central produktdatabas som fungerar som "single source of truth" för alla kanaler, standardisera produktinformation och implementera konsekvent digitala produktkort för butiksmiljö.</p>
+                                
+                                <h5 class="results-title">Förväntade resultat</h5>
+                                <ul class="results-list">
+                                    <li>35% ökning av kundnöjdhet</li>
+                                    <li>20% minskning av avhopp i köpprocessen</li>
+                                    <li>15% ökning av konvertering vid "research online, purchase offline"</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Use Case 2 -->
+                        <div class="use-case">
+                            <div class="use-case-header omnichannel">
+                                <h4 class="use-case-title">Realtidsuppdaterat lagersaldo</h4>
+                                <p class="use-case-subtitle">Transparent lagervisning över alla kanaler</p>
+                                <span class="tech-level">Teknisk nivå: Mellan</span>
+                            </div>
+                            <div class="use-case-body">
+                                <h5 class="challenge-title">Utmaning</h5>
+                                <p class="challenge-description">Inaktuell lagerinformation leder till missnöjda kunder när produkter visas som tillgängliga online men är slutsålda i butik, eller vice versa.</p>
+                                
+                                <h5 class="solution-title">Lösning: Våra kärntjänster</h5>
+                                <div class="service-pills">
+                                    <span class="service-pill">Systemintegrationer</span>
+                                    <span class="service-pill">Dataflödeskonfiguration</span>
+                                </div>
+                                <p>Integrera butikslagersystem med e-handelsplattformen, implementera realtidsuppdateringar och konfigurering av lagersynlighet för "hämta i butik" och "click & collect".</p>
+                                
+                                <h5 class="results-title">Förväntade resultat</h5>
+                                <ul class="results-list">
+                                    <li>30% ökning i butikshämtningar från online-ordrar</li>
+                                    <li>25% minskning av "out of stock"-situationer</li>
+                                    <li>20% reducering av avbrutna köp</li>
+                                    <li>15% ökning i korskanalsförsäljning</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Use Case 3 -->
+                        <div class="use-case">
+                            <div class="use-case-header omnichannel">
+                                <h4 class="use-case-title">Total omnichannel-transformation</h4>
+                                <p class="use-case-subtitle">Fullständig integration av alla kundkontaktpunkter</p>
+                                <span class="tech-level">Teknisk nivå: Hög</span>
+                            </div>
+                            <div class="use-case-body">
+                                <h5 class="challenge-title">Utmaning</h5>
+                                <p class="challenge-description">Fragmenterad kundupplevelse på grund av separata system för online och fysiska butiker, bristande personalinsikt i kundhistorik och preferenser.</p>
+                                
+                                <h5 class="solution-title">Lösning: Våra kärntjänster</h5>
+                                <div class="service-pills">
+                                    <span class="service-pill">PIM-implementation</span>
+                                    <span class="service-pill">Systemintegrationer</span>
+                                    <span class="service-pill">API-driven produktdatahantering</span>
+                                </div>
+                                <p>Implementera en central PIM-lösning som synkroniserar data med ERP, CRM och e-handel. Utveckla en kundinsiktsplattform för butikspersonal, mobila appar med scanning av produkter i butik, och personaliserade rekommendationer.</p>
+                                
+                                <h5 class="results-title">Förväntade resultat</h5>
+                                <ul class="results-list">
+                                    <li>40% ökning i kundlojalitet</li>
+                                    <li>25% högre genomsnittligt kundlivstidsvärde</li>
+                                    <li>35% ökning i korsförsäljning mellan kanaler</li>
+                                    <li>50% effektivare produktdatahantering</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Results Section -->
+                <div class="results-section">
+                    <h3 class="section-title">Typiska resultat för omnichannel-detaljhandel</h3>
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <div class="result-value">+35%</div>
+                            <p class="result-label">Ökad korskanalsförsäljning</p>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-value">-40%</div>
+                            <p class="result-label">Minskning av datasilos</p>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-value">+28%</div>
+                            <p class="result-label">Ökad kundnöjdhet</p>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-value">50%</div>
+                            <p class="result-label">Snabbare produktuppdateringar</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial -->
+                <div class="testimonial">
+                    <p class="testimonial-text">"Våra kunder bryr sig inte om huruvida de handlar i vår butik eller på nätet - de vill bara ha en sömlös upplevelse. Med hjälp av re:commerce skapade vi en enhetlig produktdatabas som synkroniserar information i realtid mellan alla våra kanaler. Vår butikspersonal kan nu se online-recensioner, lagerstatus och kundens köphistorik i realtid. Det har ökat vår försäljning med 22% och framför allt förbättrat kundupplevelsen markant."</p>
+                    <p class="testimonial-author">Karin Johansson, Retail Director på MultiChannel AB</p>
+                </div>
+                
+                <!-- Related Segments -->
+                <div class="related-segments">
+                    <h3 class="related-segments-title">Relaterade kundsegment</h3>
+                    <div class="related-segment-buttons">
+                        <button class="segment-button fashion" data-segment="fashion">Modevarumärken</button>
+                        <button class="segment-button home" data-segment="home">Möbel & Inredning</button>
+                        <button class="segment-button sports" data-segment="sports">Sporthandel</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- B2B Segment Content -->
+            <div class="segment-content" id="b2b-content">
+                <div class="segment-header b2b">
+                    <div class="segment-overlay"></div>
+                    <div class="segment-header-content">
+                        <h2 class="segment-title">B2B-leverantörer</h2>
+                        <p class="segment-description">Företag som säljer produkter och tjänster till andra företag, ofta med komplexa produktkataloger, kundspecifika priser och kommersiella villkor.</p>
+                    </div>
+                </div>
+                
+                <!-- Pain Points Section -->
+                <div class="pain-points">
+                    <h3 class="section-title">Vanliga utmaningar</h3>
+                    <div class="pain-points-grid">
+                        <div class="pain-point">
+                            <div class="pain-point-icon">📋</div>
+                            <h4 class="pain-point-title">Komplexa produktkataloger</h4>
+                            <p class="pain-point-description">Tusentals produkter med omfattande tekniska specifikationer och varianter.</p>
+                        </div>
+                        
+                        <div class="pain-point">
+                            <div class="pain-point-icon">👥</div>
+                            <h4 class="pain-point-title">Kundanpassade kataloger</h4>
+                            <p class="pain-point-description">Behov av kundspecifika produktsortiment, priser och villkor.</p>
+                        </div>
+                        
+                        <div class="pain-point">
+                            <div class="pain-point-icon">🔄</div>
+                            <h4 class="pain-point-title">Långsamma uppdateringar</h4>
+                            <p class="pain-point-description">Tidskrävande process att uppdatera produktinformation i olika system och format.</p>
+                        </div>
+                        
+                        <div class="pain-point">
+                            <div class="pain-point-icon">🌍</div>
+                            <h4 class="pain-point-title">Internationell distribution</h4>
+                            <p class="pain-point-description">Utmaningar med att hantera produktdata på olika språk och för olika marknader.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Use Cases Section -->
+                <div class="use-cases">
+                    <h3 class="section-title">Prioriterade Use Cases</h3>
+                    <div class="use-cases-grid">
+                        <!-- Use Case 1 -->
+                        <div class="use-case">
+                            <div class="use-case-header b2b">
+                                <h4 class="use-case-title">Centraliserad produktkatalog</h4>
+                                <p class="use-case-subtitle">Sammanhållen hantering av B2B-produktdata</p>
+                                <span class="tech-level">Teknisk nivå: Låg</span>
+                            </div>
+                            <div class="use-case-body">
+                                <h5 class="challenge-title">Utmaning</h5>
+                                <p class="challenge-description">Produktinformation är spridd i olika system och filformat, vilket leder till inkonsekvenser, dubbelarbete och höga kostnader för katalogunderhåll.</p>
+                                
+                                <h5 class="solution-title">Lösning: Våra kärntjänster</h5>
+                                <div class="service-pills">
+                                    <span class="service-pill">Datastrukturering</span>
+                                    <span class="service-pill">Innehållsoptimering</span>
+                                </div>
+                                <p>Skapa en central produktdatabas med standardiserad struktur, enhetliga produktbeskrivningar och automatiserade exportfunktioner för olika format (PDF, Excel, web).</p>
+                                
+                                <h5 class="results-title">Förväntade resultat</h5>
+                                <ul class="results-list">
+                                    <li>50% reducering av tid för kataloguppdateringar</li>
+                                    <li>90% minskning av felaktig produktdata</li>
+                                    <li>30% minskade kostnader för katalogproduktion</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Use Case 2 -->
+                        <div class="use-case">
+                            <div class="use-case-header b2b">
+                                <h4 class="use-case-title">Kundanpassade produktportaler</h4>
+                                <p class="use-case-subtitle">Skräddarsydda produktvyer för olika kunder</p>
+                                <span class="tech-level">Teknisk nivå: Mellan</span>
+                            </div>
+                            <div class="use-case-body">
+                                <h5 class="challenge-title">Utmaning</h5>
+                                <p class="challenge-description">Olika kunder behöver se olika produktsortiment, priser och information. Manuell hantering av detta är extremt tidskrävande och felbenägen.</p>
+                                
+                                <h5 class="solution-title">Lösning: Våra kärntjänster</h5>
+                                <div class="service-pills">
+                                    <span class="service-pill">Multi-plattformsoptimering</span>
+                                    <span class="service-pill">Dataflödeskonfiguration</span>
+                                </div>
+                                <p>Implementera kundlogik som filtrerar produktdata baserat på kundrelationer, skapa kundspecifika produktportaler med anpassade attribut, priser och tillgänglighet samt automatiserade uppdateringar när huvuddatan ändras.</p>
+                                
+                                <h5 class="results-title">Förväntade resultat</h5>
+                                <ul class="results-list">
+                                    <li>40% ökad försäljning genom förbättrad kundupplevelse</li>
+                                    <li>70% minskning av tid för kundanpassningar</li>
+                                    <li>35% ökning i antalet självbetjäningsordrar</li>
+                                    <li>80% reducering av orderfel</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Use Case 3 -->
+                        <div class="use-case">
+                            <div class="use-case-header b2b">
+                                <h4 class="use-case-title">B2B Digital Transformation</h4>
+                                <p class="use-case-subtitle">Fullskalig modernisering av produktdatahantering</p>
+                                <span class="tech-level">Teknisk nivå: Hög</span>
+                            </div>
+                            <div class="use-case-body">
+                                <h5 class="challenge-title">Utmaning</h5>
+                                <p class="challenge-description">Föråldrade system och processer hindrar företaget från att möta moderna B2B-kunders förvänningar på digital handel och dataintegration.</p>
+                                
+                                <h5 class="solution-title">Lösning: Våra kärntjänster</h5>
+                                <div class="service-pills">
+                                    <span class="service-pill">PIM-implementation</span>
+                                    <span class="service-pill">API-driven produktdatahantering</span>
+                                    <span class="service-pill">Systemintegrationer</span>
+                                </div>
+                                <p>Implementera en fullskalig PIM-lösning med integration mot ERP och CRM, API-tjänster för kundintegrationer, självbetjäningsportaler och digital produktdistribution för olika kanaler.</p>
+                                
+                                <h5 class="results-title">Förväntade resultat</h5>
+                                <ul class="results-list">
+                                    <li>200% ökning i digital B2B-försäljning</li>
+                                    <li>60% minskade kostnader för orderhantering</li>
+                                    <li>45% snabbare time-to-market för nya produkter</li>
+                                    <li>25% ökad kundlojalitet bland nyckelkunder</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Results Section -->
+                <div class="results-section">
+                    <h3 class="section-title">Typiska resultat för B2B-leverantörer</h3>
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <div class="result-value">65%</div>
+                            <p class="result-label">Effektivare produktdatahantering</p>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-value">+45%</div>
+                            <p class="result-label">Ökning av digital försäljning</p>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-value">-70%</div>
+                            <p class="result-label">Reducerad tid för uppdateringar</p>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-value">+35%</div>
+                            <p class="result-label">Förbättrad kundnöjdhet</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial -->
+                <div class="testimonial">
+                    <p class="testimonial-text">"Vår produktkatalog innehåller över 15,000 artiklar med komplexa tekniska specifikationer. Tidigare behövde vi 8-10 veckor för att skapa och distribuera kataloguppdateringar till våra kunder - och när vi var klara var informationen redan utdaterad. re:commerce implementerade en central PIM-lösning som nu gör att vi kan uppdatera i realtid. Våra större kunder har API-tillgång så de kan alltid hämta senaste data, och hela processen har blivit 70% effektivare."</p>
+                    <p class="testimonial-author">Johan Berggren, CTO på IndustriTech AB</p>
+                </div>
+                
+                <!-- Related Segments -->
+                <div class="related-segments">
+                    <h3 class="related-segments-title">Relaterade kundsegment</h3>
+                    <div class="related-segment-buttons">
+                        <button class="segment-button tech" data-segment="tech">Elektronikåterförsäljare</button>
+                        <button class="segment-button diy" data-segment="diy">Bygg & DIY</button>
+                        <button class="segment-button omnichannel" data-segment="omnichannel">Omnichannel-detaljhandel</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Marketplace Segment Content -->
+            <div class="segment-content" id="marketplace-content">
+                <div class="segment-header marketplace">
+                    <div class="segment-overlay"></div>
+                    <div class="segment-header-content">
+                        <h2 class="segment-title">Marknadsplatssäljare</h2>
+                        <p class="segment-description">Företag som säljer sina produkter på olika marknadsplatser som Amazon, Zalando, CDON och Fyndiq, och behöver optimera sin närvaro på dessa plattformar.</p>
+                    </div>
+                </div>
+                
+                <!-- Pain Points Section -->
+                <div class="pain-points">
+                    <h3 class="section-title">Vanliga utmaningar</h3>
+                    <div class="pain-points-grid">
+                        <div class="pain-point">
+                            <div class="pain-point-icon">📋</div>
+                            <h4 class="pain-point-title">Plattformsspecifika krav</h4>
+                            <p class="pain-point-description">Varje marknadsplats har unika krav för produktdata, format och struktur.</p>
+                        </div>
+                        
+                        <div class="pain-point">
+                            <div class="pain-point-icon">🔍</div>
+                            <h4 class="pain-point-title">Synlighet i sökresultat</h4>
+                            <p class="pain-point-description">Svårt att optimera produktlistningar för att ranka högt i marknadsplatsernas sökmotorer.</p>
+                        </div>
+                        
+                        <div class="pain-point">
+                            <div class="pain-point-icon">💰</div>
+                            <h4 class="pain-point-title">Priskonkurrens</h4>
+                            <p class="pain-point-description">Utmanande att hålla konkurrenskraftiga priser på flera plattformar samtidigt.</p>
+                        </div>
+                        
+                        <div class="pain-point">
+                            <div class="pain-point-icon">🔄</div>
+                            <h4 class="pain-point-title">Uppdateringslogistik</h4>
+                            <p class="pain-point-description">Tidskrävande att underhålla produktdata på flera plattformar samtidigt.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Use Cases Section -->
+                <div class="use-cases">
+                    <h3 class="section-title">Prioriterade Use Cases</h3>
+                    <div class="use-cases-grid">
+                        <!-- Use Case 1 -->
+                        <div class="use-case">
+                            <div class="use-case-header marketplace">
+                                <h4 class="use-case-title">Marknadsplatsoptimering</h4>
+                                <p class="use-case-subtitle">Maximera synlighet och konvertering</p>
+                                <span class="tech-level">Teknisk nivå: Låg</span>
+                            </div>
+                            <div class="use-case-body">
+                                <h5 class="challenge-title">Utmaning</h5>
+                                <p class="challenge-description">Produkter syns dåligt i sökresultaten på marknadsplatser, vilket resulterar i låg trafik och försäljning trots konkurrenskraftiga priser.</p>
+                                
+                                <h5 class="solution-title">Lösning: Våra kärntjänster</h5>
+                                <div class="service-pills">
+                                    <span class="service-pill">Innehållsoptimering</span>
+                                    <span class="service-pill">Produktdataanalys</span>
+                                </div>
+                                <p>Optimera produkttitlar, beskrivningar och nyckelord baserat på sökbeteende, förbättra produktbilder enligt marknadsplatsens riktlinjer och implementera A/B-testning av olika beskrivningsvarianter.</p>
+                                
+                                <h5 class="results-title">Förväntade resultat</h5>
+                                <ul class="results-list">
+                                    <li>75% förbättrad synlighet i sökresultat</li>
+                                    <li>40% ökad klickfrekvens</li>
+                                    <li>25% högre konverteringsgrad</li>
+                                    <li>50% ökad försäljning</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Use Case 2 -->
+                        <div class="use-case">
+                            <div class="use-case-header marketplace">
+                                <h4 class="use-case-title">Multi-marknadsplatshantering</h4>
+                                <p class="use-case-subtitle">Effektiv hantering av flera plattformar</p>
+                                <span class="tech-level">Teknisk nivå: Mellan</span>
+                            </div>
+                            <div class="use-case-body">
+                                <h5 class="challenge-title">Utmaning</h5>
+                                <p class="challenge-description">Det är tidskrävande och felbenäget att manuellt uppdatera och hantera produkter på flera marknadsplatser med olika datakrav och format.</p>
+                                
+                                <h5 class="solution-title">Lösning: Våra kärntjänster</h5>
+                                <div class="service-pills">
+                                    <span class="service-pill">Dataflödeskonfiguration</span>
+                                    <span class="service-pill">Multi-plattformsoptimering</span>
+                                    <span class="service-pill">Automatisering</span>
+                                </div>
+                                <p>Skapa en central produktdatabas med automatiserade feeds för olika marknadsplatser, plattformsspecifika anpassningar för varje kanal och schemalagda uppdateringar av priser och lagersaldon.</p>
+                                
+                                <h5 class="results-title">Förväntade resultat</h5>
+                                <ul class="results-list">
+                                    <li>90% tidsbesparing vid produktuppdateringar</li>
+                                    <li>75% minskning av felaktiga listningar</li>
+                                    <li>35% fler listade produkter totalt</li>
+                                    <li>40% ökad total försäljning</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Use Case 3 -->
+                        <div class="use-case">
+                            <div class="use-case-header marketplace">
+                                <h4 class="use-case-title">Dynamisk marknadsplatsstrategi</h4>
+                                <p class="use-case-subtitle">Automatiserad prisoptimering och expansion</p>
+                                <span class="tech-level">Teknisk nivå: Hög</span>
+                            </div>
+                            <div class="use-case-body">
+                                <h5 class="challenge-title">Utmaning</h5>
+                                <p class="challenge-description">Svårt att behålla konkurrenskraftiga priser, vinna Buy Box, och effektivt expandera till nya marknadsplatser och internationella marknader.</p>
+                                
+                                <h5 class="solution-title">Lösning: Våra kärntjänster</h5>
+                                <div class="service-pills">
+                                    <span class="service-pill">API-driven produktdatahantering</span>
+                                    <span class="service-pill">AI-driven produktdatahantering</span>
+                                    <span class="service-pill">Automatisering</span>
+                                </div>
+                                <p>Implementera realtidsövervakning av konkurrentpriser, automatiska prisjusteringar baserade på algoritmer, automatiserad översättning och lokalisering för internationella marknader, samt prediktiv analys för optimala försäljningsstrategier.</p>
+                                
+                                <h5 class="results-title">Förväntade resultat</h5>
+                                <ul class="results-list">
+                                    <li>60% ökning av Buy Box-vinster</li>
+                                    <li>30% högre vinstmarginal genom dynamisk prissättning</li>
+                                    <li>80% snabbare expansion till nya marknader</li>
+                                    <li>45% ökad total försäljning</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Results Section -->
+                <div class="results-section">
+                    <h3 class="section-title">Typiska resultat för marknadsplatssäljare</h3>
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <div class="result-value">+55%</div>
+                            <p class="result-label">Ökad försäljning</p>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-value">+65%</div>
+                            <p class="result-label">Förbättrad synlighet</p>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-value">80%</div>
+                            <p class="result-label">Effektivare hantering</p>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-value">+45%</div>
+                            <p class="result-label">Ökning av Buy Box-vinster</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial -->
+                <div class="testimonial">
+                    <p class="testimonial-text">"Vi sålde tidigare på tre marknadsplatser och spenderade nästan 20 timmar per vecka på att manuellt uppdatera produkter, priser och lagersaldon. Med DataStandards automatiserade feeds har vi nu expanderat till åtta marknadsplatser och spenderar bara 2 timmar i veckan på underhåll. Vår försäljning har ökat med 75% och vi ökade våra Buy Box-vinster på Amazon med 45%. Vi har också fått möjlighet att expandera internationellt med minimal extra arbetsinsats."</p>
+                    <p class="testimonial-author">Lisa Fredriksson, Grundare av MarketSeller AB</p>
+                </div>
+                
+                <!-- Related Segments -->
+                <div class="related-segments">
+                    <h3 class="related-segments-title">Relaterade kundsegment</h3>
+                    <div class="related-segment-buttons">
+                        <button class="segment-button fashion" data-segment="fashion">Modevarumärken</button>
+                        <button class="segment-button tech" data-segment="tech">Elektronikåterförsäljare</button>
+                        <button class="segment-button home" data-segment="home">Möbel & Inredning</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Remaining segments would follow the same pattern -->
+            <!-- For this example, I'll just add placeholders with minimal content -->
+            
+            <div class="segment-content" id="home-content">
+                <div class="segment-header home">
+                    <div class="segment-overlay"></div>
+                    <div class="segment-header-content">
+                        <h2 class="segment-title">Möbel & Inredningsföretag</h2>
+                        <p class="segment-description">Företag som säljer möbler, heminredning och inredningsartiklar med fokus på visuella produktpresentationer och komplexa variantstrukturer.</p>
+                    </div>
+                </div>
+                
+                <!-- Placeholder content -->
+                <div class="pain-points">
+                    <h3 class="section-title">Vanliga utmaningar</h3>
+                    <p style="padding: 20px; text-align: center; color: #7f8c8d;">Kompletta utmaningar och use cases för detta segment kommer inom kort.</p>
+                </div>
+            </div>
+            
+            <div class="segment-content" id="sports-content">
+                <div class="segment-header sports">
+                    <div class="segment-overlay"></div>
+                    <div class="segment-header-content">
+                        <h2 class="segment-title">Sporthandel</h2>
+                        <p class="segment-description">Företag som säljer sportutrustning, träningskläder och outdoorprodukter med säsongsbaserade kollektioner och tekniska specifikationer.</p>
+                    </div>
+                </div>
+                
+                <!-- Placeholder content -->
+                <div class="pain-points">
+                    <h3 class="section-title">Vanliga utmaningar</h3>
+                    <p style="padding: 20px; text-align: center; color: #7f8c8d;">Kompletta utmaningar och use cases för detta segment kommer inom kort.</p>
+                </div>
+            </div>
+            
+            <div class="segment-content" id="grocery-content">
+                <div class="segment-header grocery">
+                    <div class="segment-overlay"></div>
+                    <div class="segment-header-content">
+                        <h2 class="segment-title">Livsmedelsbutiker</h2>
+                        <p class="segment-description">Livsmedelskedjor och matbutiker med e-handel som hanterar stora sortiment med detaljerad produktinformation och allergener.</p>
+                    </div>
+                </div>
+                
+                <!-- Placeholder content -->
+                <div class="pain-points">
+                    <h3 class="section-title">Vanliga utmaningar</h3>
+                    <p style="padding: 20px; text-align: center; color: #7f8c8d;">Kompletta utmaningar och use cases för detta segment kommer inom kort.</p>
+                </div>
+            </div>
+            
+            <div class="segment-content" id="beauty-content">
+                <div class="segment-header beauty">
+                    <div class="segment-overlay"></div>
+                    <div class="segment-header-content">
+                        <h2 class="segment-title">Skönhet & Kosmetika</h2>
+                        <p class="segment-description">Företag som säljer hudvård, smink, parfym och skönhetsprodukter med fokus på ingredienser, effekter och konsumentupplevelse.</p>
+                    </div>
+                </div>
+                
+                <!-- Placeholder content -->
+                <div class="pain-points">
+                    <h3 class="section-title">Vanliga utmaningar</h3>
+                    <p style="padding: 20px; text-align: center; color: #7f8c8d;">Kompletta utmaningar och use cases för detta segment kommer inom kort.</p>
+                </div>
+            </div>
+            
+            <div class="segment-content" id="diy-content">
+                <div class="segment-header diy">
+                    <div class="segment-overlay"></div>
+                    <div class="segment-header-content">
+                        <h2 class="segment-title">Bygg & DIY</h2>
+                        <p class="segment-description">Byggvaruhus och detaljhandlare som säljer verktyg, byggmaterial och gör-det-själv-produkter med omfattande teknisk information.</p>
+                    </div>
+                </div>
+                
+                <!-- Placeholder content -->
+                <div class="pain-points">
+                    <h3 class="section-title">Vanliga utmaningar</h3>
+                    <p style="padding: 20px; text-align: center; color: #7f8c8d;">Kompletta utmaningar och use cases för detta segment kommer inom kort.</p>
+                </div>
+            </div>
+            
+        </div>
+        
+        <footer>
+            <p>© 2025 re:commerce AB. Specialister på produktdatahantering.</p>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Segment Navigation Functionality
+            const segmentButtons = document.querySelectorAll('.segment-button');
+            const segmentContents = document.querySelectorAll('.segment-content');
+            
+            segmentButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const segmentType = this.getAttribute('data-segment');
+                    
+                    // Deactivate all segments
+                    segmentButtons.forEach(b => b.classList.remove('active'));
+                    segmentContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Activate clicked segment
+                    this.classList.add('active');
+                    document.getElementById(`${segmentType}-content`).classList.add('active');
+                    
+                    // Scroll to top of content
+                    window.scrollTo({
+                        top: document.querySelector('.segment-nav').offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Handle related segment buttons
+            const relatedButtons = document.querySelectorAll('.related-segment-buttons .segment-button');
+            
+            relatedButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const segmentType = this.getAttribute('data-segment');
+                    
+                    // Find the main nav button for this segment and trigger click
+                    document.querySelector(`.segment-nav .segment-button[data-segment="${segmentType}"]`).click();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
