@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>re:commerce Tjänstöversikt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 30px;
+        }
+        
+        /* Service Sections */
+        .service-section {
+            margin-bottom: 50px;
+        }
+        .service-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .service-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .service-subtitle {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Tech Level Tabs */
+        .tech-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .tech-tab {
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .tab-low {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 2px solid #2e7d32;
+        }
+        .tab-low.active {
+            background-color: #2e7d32;
+            color: white;
+        }
+        .tab-medium {
+            background-color: #fff3e0;
+            color: #ef6c00;
+            border: 2px solid #ef6c00;
+        }
+        .tab-medium.active {
+            background-color: #ef6c00;
+            color: white;
+        }
+        .tab-high {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 2px solid #c62828;
+        }
+        .tab-high.active {
+            background-color: #c62828;
+            color: white;
+        }
+        
+        /* Tech Level Content */
+        .tech-content {
+            display: none;
+        }
+        .tech-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Service Cards Grid */
+        .service-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .service-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .service-card-header {
+            padding: 15px;
+            border-bottom: 1px solid #f1f1f1;
+        }
+        .service-card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .service-card-subtitle {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        .service-card-body {
+            padding: 15px;
+        }
+        .features-list {
+            list-style-type: none;
+        }
+        .features-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f1f1;
+            font-size: 0.9rem;
+        }
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+        
+        /* Use Cases Section */
+        .use-cases {
+            margin-top: 20px;
+        }
+        .use-cases-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #3498db;
+        }
+        .segment-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .segment-tag {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+        }
+        .segment-tag-icon {
+            margin-right: 5px;
+            font-size: 0.7rem;
+        }
+        .ecommerce {
+            background-color: #e74c3c;
+        }
+        .omnichannel {
+            background-color: #9b59b6;
+        }
+        .b2b {
+            background-color: #27ae60;
+        }
+        .marketplace {
+            background-color: #f39c12;
+        }
+        .fashion {
+            background-color: #16a085;
+        }
+        .tech {
+            background-color: #2980b9;
+        }
+        
+        /* Pain Points Section */
+        .pain-points {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 50px;
+        }
+        .pain-points-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .pain-points-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .pain-points-subtitle {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .pain-points-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .pain-point-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .pain-point-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .pain-point-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #e74c3c;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f1f1f1;
+        }
+        .pain-point-description {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+        .solution-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+        .solution-list {
+            list-style-type: none;
+        }
+        .solution-list li {
+            padding: 5px 0;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+        }
+        .solution-list li:before {
+            content: "✓";
+            color: #27ae60;
+            margin-right: 8px;
+        }
+        
+        /* Core Services Section */
+        .core-services {
+            margin-top: 50px;
+            padding: 30px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+        .core-services-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .core-services-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .core-services-subtitle {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .core-services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .core-service-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .core-service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .core-service-icon {
+            width: 50px;
+            height: 50px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        .core-service-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        .core-service-description {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+        .adaptations-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        .adaptations {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .adaptation {
+            display: flex;
+            align-items: center;
+            background-color: #ecf0f1;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            color: #7f8c8d;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .service-cards, .pain-points-grid, .core-services-grid {
+                grid-template-columns: 1fr;
+            }
+            .tech-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            .tech-tab {
+                margin: 5px 0;
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>re:commerce Produktdatahantering</h1>
+            <p class="subtitle">Specialanpassade lösningar som löser dina produktdatautmaningar, oavsett bransch eller teknisk nivå</p>
+        </header>
+        
+        <div class="main-content">
+            <!-- Service Packages Section -->
+            <section class="service-section">
+                <div class="service-header">
+                    <h2 class="service-title">Våra Tjänstepaket</h2>
+                    <p class="service-subtitle">Anpassade efter din tekniska nivå med branschspecifika tillämpningar</p>
+                </div>
+                
+                <!-- Tech Level Tabs -->
+                <div class="tech-tabs">
+                    <div class="tech-tab tab-low active" data-tab="low">Teknisk nivå: Låg</div>
+                    <div class="tech-tab tab-medium" data-tab="medium">Teknisk nivå: Mellan</div>
+                    <div class="tech-tab tab-high" data-tab="high">Teknisk nivå: Hög</div>
+                </div>
+                
+                <!-- Low Tech Level Content -->
+                <div class="tech-content active" id="low-content">
+                    <p style="text-align: center; margin-bottom: 30px;">För kunder som "bara vill att det ska funka" utan teknisk komplexitet</p>
+                    
+                    <div class="service-cards">
+                        <!-- Card 1 -->
+                        <div class="service-card">
+                            <div class="service-card-header">
+                                <h3 class="service-card-title">Grundläggande produktdatastrukturering</h3>
+                                <p class="service-card-subtitle">Skapa en solid bas för produktinformation</p>
+                            </div>
+                            <div class="service-card-body">
+                                <ul class="features-list">
+                                    <li>✓ Standardisering av attribut</li>
+                                    <li>✓ Konsekvent formatering</li>
+                                    <li>✓ Grundläggande kategorisering</li>
+                                    <li>✓ Kvalitetskontroll</li>
+                                </ul>
+                                
+                                <div class="use-cases">
+                                    <h4 class="use-cases-title">Branschspecifika tillämpningar</h4>
+                                    <div class="segment-tags">
+                                        <span class="segment-tag ecommerce"><span class="segment-tag-icon">●</span> E-handel: Produktkataloger</span>
+                                        <span class="segment-tag b2b"><span class="segment-tag-icon">●</span> B2B: Datablad</span>
+                                        <span class="segment-tag fashion"><span class="segment-tag-icon">●</span> Mode: Storleksguider</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 2 -->
+                        <div class="service-card">
+                            <div class="service-card-header">
+                                <h3 class="service-card-title">Optimering av produktbeskrivningar</h3>
+                                <p class="service-card-subtitle">Förbättra texter för ökad konvertering</p>
+                            </div>
+                            <div class="service-card-body">
+                                <ul class="features-list">
+                                    <li>✓ Säljande produkttexter</li>
+                                    <li>✓ SEO-optimering</li>
+                                    <li>✓ Konsekvent ton och språk</li>
+                                    <li>✓ Målgruppsanpassat innehåll</li>
+                                </ul>
+                                
+                                <div class="use-cases">
+                                    <h4 class="use-cases-title">Branschspecifika tillämpningar</h4>
+                                    <div class="segment-tags">
+                                        <span class="segment-tag ecommerce"><span class="segment-tag-icon">●</span> E-handel: Konverteringsfokus</span>
+                                        <span class="segment-tag marketplace"><span class="segment-tag-icon">●</span> Marknadsplats: Synlighet</span>
+                                        <span class="segment-tag tech"><span class="segment-tag-icon">●</span> Teknik: Användbarhet</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 3 -->
+                        <div class="service-card">
+                            <div class="service-card-header">
+                                <h3 class="service-card-title">Bildoptimering</h3>
+                                <p class="service-card-subtitle">Förbättra produktbilder för bättre visuell presentation</p>
+                            </div>
+                            <div class="service-card-body">
+                                <ul class="features-list">
+                                    <li>✓ Konsekvent bildstil</li>
+                                    <li>✓ Grundläggande retuschering</li>
+                                    <li>✓ Optimerade filstorlekar</li>
+                                    <li>✓ Rätt bildformat och upplösning</li>
+                                </ul>
+                                
+                                <div class="use-cases">
+                                    <h4 class="use-cases-title">Branschspecifika tillämpningar</h4>
+                                    <div class="segment-tags">
+                                        <span class="segment-tag fashion"><span class="segment-tag-icon">●</span> Mode: Livsstilsbilder</span>
+                                        <span class="segment-tag tech"><span class="segment-tag-icon">●</span> Teknik: Produktdetaljer</span>
+                                        <span class="segment-tag marketplace"><span class="segment-tag-icon">●</span> Marknadsplats: Vit bakgrund</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 4 -->
+                        <div class="service-card">
+                            <div class="service-card-header">
+                                <h3 class="service-card-title">Dataflödeskonfiguration</h3>
+                                <p class="service-card-subtitle">Skapa grundläggande flöden för produktdata</p>
+                            </div>
+                            <div class="service-card-body">
+                                <ul class="features-list">
+                                    <li>✓ Enklare dataexporter</li>
+                                    <li>✓ Anpassning till standardformat</li>
+                                    <li>✓ Schemalagda uppdateringar</li>
+                                    <li>✓ Felhantering och rapportering</li>
+                                </ul>
+                                
+                                <div class="use-cases">
+                                    <h4 class="use-cases-title">Branschspecifika tillämpningar</h4>
+                                    <div class="segment-tags">
+                                        <span class="segment-tag ecommerce"><span class="segment-tag-icon">●</span> E-handel: Google Shopping</span>
+                                        <span class="segment-tag omnichannel"><span class="segment-tag-icon">●</span> Omni: Lagersaldo</span>
+                                        <span class="segment-tag b2b"><span class="segment-tag-icon">●</span> B2B: CSV-export</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Medium Tech Level Content -->
+                <div class="tech-content" id="medium-content">
+                    <p style="text-align: center; margin-bottom: 30px;">För kunder med viss teknisk förståelse som vill ha mer avancerade lösningar</p>
+                    
+                    <div class="service-cards">
+                        <!-- Card 1 -->
+                        <div class="service-card">
+                            <div class="service-card-header">
+                                <h3 class="service-card-title">Avancerad produktdataanalys</h3>
+                                <p class="service-card-subtitle">Datadriven förbättring av produktinformation</p>
+                            </div>
+                            <div class="service-card-body">
+                                <ul class="features-list">
+                                    <li>✓ Konkurrentanalys</li>
+                                    <li>✓ Datakvalitetsmätning</li>
+                                    <li>✓ Prestandaoptimering</li>
+                                    <li>✓ Insiktsrapporter</li>
+                                </ul>
+                                
+                                <div class="use-cases">
+                                    <h4 class="use-cases-title">Branschspecifika tillämpningar</h4>
+                                    <div class="segment-tags">
+                                        <span class="segment-tag ecommerce"><span class="segment-tag-icon">●</span> E-handel: Konverteringsanalys</span>
+                                        <span class="segment-tag marketplace"><span class="segment-tag-icon">●</span> Marknadsplats: Konkurrentövervakning</span>
+                                        <span class="segment-tag fashion"><span class="segment-tag-icon">●</span> Mode: Returanalys</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 2 -->
+                        <div class="service-card">
+                            <div class="service-card-header">
+                                <h3 class="service-card-title">Dynamisk produktpresentation</h3>
+                                <p class="service-card-subtitle">Interaktiva produktupplevelser för kunder</p>
+                            </div>
+                            <div class="service-card-body">
+                                <ul class="features-list">
+                                    <li>✓ 360-graders produktvisningar</li>
+                                    <li>✓ Interaktiva jämförelsetabeller</li>
+                                    <li>✓ Responsiv produktvisning</li>
+                                    <li>✓ Produktfiltrering/sortering</li>
+                                </ul>
+                                
+                                <div class="use-cases">
+                                    <h4 class="use-cases-title">Branschspecifika tillämpningar</h4>
+                                    <div class="segment-tags">
+                                        <span class="segment-tag tech"><span class="segment-tag-icon">●</span> Teknik: Produktjämförelser</span>
+                                        <span class="segment-tag fashion"><span class="segment-tag-icon">●</span> Mode: Virtuell styling</span>
+                                        <span class="segment-tag omnichannel"><span class="segment-tag-icon">●</span> Omni: In-store digital presentation</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 3 -->
+                        <div class="service-card">
+                            <div class="service-card-header">
+                                <h3 class="service-card-title">Multi-plattformsoptimering</h3>
+                                <p class="service-card-subtitle">Anpassa produktdata för flera kanaler</p>
+                            </div>
+                            <div class="service-card-body">
+                                <ul class="features-list">
+                                    <li>✓ Kanalstyrd innehållsstrategi</li>
+                                    <li>✓ Automatisk formatanpassning</li>
+                                    <li>✓ Plattformsspecifika regler</li>
+                                    <li>✓ Synkroniserad uppdatering</li>
+                                </ul>
+                                
+                                <div class="use-cases">
+                                    <h4 class="use-cases-title">Branschspecifika tillämpningar</h4>
+                                    <div class="segment-tags">
+                                        <span class="segment-tag marketplace"><span class="segment-tag-icon">●</span> Marknadsplats: Multi-marketplace</span>
+                                        <span class="segment-tag omnichannel"><span class="segment-tag-icon">●</span> Omni: Web-to-store</span>
+                                        <span class="segment-tag b2b"><span class="segment-tag-icon">●</span> B2B: Kundanpassade portaler</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 4 -->
+                        <div class="service-card">
+                            <div class="service-card-header">
+                                <h3 class="service-card-title">Hållbarhetsdata & spårbarhet</h3>
+                                <p class="service-card-subtitle">Integrera hållbarhetsinformation i produktdata</p>
+                            </div>
+                            <div class="service-card-body">
+                                <ul class="features-list">
+                                    <li>✓ Miljömärkningar</li>
+                                    <li>✓ Materialspårning</li>
+                                    <li>✓ CO2-avtryck</li>
+                                    <li>✓ Hållbarhetscertifieringar</li>
+                                </ul>
+                                
+                                <div class="use-cases">
+                                    <h4 class="use-cases-title">Branschspecifika tillämpningar</h4>
+                                    <div class="segment-tags">
+                                        <span class="segment-tag fashion"><span class="segment-tag-icon">●</span> Mode: Material & produktion</span>
+                                        <span class="segment-tag ecommerce"><span class="segment-tag-icon">●</span> E-handel: USP & differentiering</span>
+                                        <span class="segment-tag b2b"><span class="segment-tag-icon">●</span> B2B: Upphandlingskrav</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- High Tech Level Content -->
+                <div class="tech-content" id="high-content">
+                    <p style="text-align: center; margin-bottom: 30px;">För tekniskt mogna kunder som vill ha avancerade, integrerade lösningar</p>
+                    
+                    <div class="service-cards">
+                        <!-- Card 1 -->
+                        <div class="service-card">
+                            <div class="service-card-header">
+                                <h3 class="service-card-title">PIM-implementation</h3>
+                                <p class="service-card-subtitle">Komplett Product Information Management-lösning</p>
+                            </div>
+                            <div class="service-card-body">
+                                <ul class="features-list">
+                                    <li>✓ Centraliserad produktdatahantering</li>
+                                    <li>✓ Arbetsflöden & governance</li>
+                                    <li>✓ Integrationer med andra system</li>
+                                    <li>✓ Skalbar infrastruktur</li>
+                                </ul>
+                                
+                                <div class="use-cases">
+                                    <h4 class="use-cases-title">Branschspecifika tillämpningar</h4>
+                                    <div class="segment-tags">
+                                        <span class="segment-tag ecommerce"><span class="segment-tag-icon">●</span> E-handel: Multi-channel</span>
+                                        <span class="segment-tag b2b"><span class="segment-tag-icon">●</span> B2B: Kund-PIM</span>
+                                        <span class="segment-tag omnichannel"><span class="segment-tag-icon">●</span> Omni: Total integration</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 2 -->
+                        <div class="service-card">
+                            <div class="service-card-header">
+                                <h3 class="service-card-title">API-driven produktdatahantering</h3>
+                                <p class="service-card-subtitle">Öppen och flexibel åtkomst till produktdata</p>
+                            </div>
+                            <div class="service-card-body">
+                                <ul class="features-list">
+                                    <li>✓ RESTful API-design</li>
+                                    <li>✓ Realtids-uppdateringar</li>
+                                    <li>✓ Skalbar arkitektur</li>
+                                    <li>✓ Säker autentisering</li>
+                                </ul>
+                                
+                                <div class="use-cases">
+                                    <h4 class="use-cases-title">Branschspecifika tillämpningar</h4>
+                                    <div class="segment-tags">
+                                        <span class="segment-tag marketplace"><span class="segment-tag-icon">●</span> Marknadsplats: Automatisering</span>
+                                        <span class="segment-tag tech"><span class="segment-tag-icon">●</span> Teknik: Integration</span>
+                                        <span class="segment-tag b2b"><span class="segment-tag-icon">●</span> B2B: Kundanpassning</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 3 -->
+                        <div class="service-card">
+                            <div class="service-card-header">
+                                <h3 class="service-card-title">AI-driven produktdatahantering</h3>
+                                <p class="service-card-subtitle">Automatisera och förbättra med AI</p>
+                            </div>
+                            <div class="service-card-body">
+                                <ul class="features-list">
+                                    <li>✓ Automatisk innehållsgenerering</li>
+                                    <li>✓ Intelligent produktkategorisering</li>
+                                    <li>✓ Prediktiv analys</li>
+                                    <li>✓ Personaliserade upplevelser</li>
+                                </ul>
+                                
+                                <div class="use-cases">
+                                    <h4 class="use-cases-title">Branschspecifika tillämpningar</h4>
+                                    <div class="segment-tags">
+                                        <span class="segment-tag fashion"><span class="segment-tag-icon">●</span> Mode: Personalisering</span>
+                                        <span class="segment-tag ecommerce"><span class="segment-tag-icon">●</span> E-handel: Produktrekommendation</span>
+                                        <span class="segment-tag tech"><span class="segment-tag-icon">●</span> Teknik: Prediktiv support</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 4 -->
+                        <div class="service-card">
+                            <div class="service-card-header">
+                                <h3 class="service-card-title">Avancerad visualisering</h3>
+                                <p class="service-card-subtitle">Nästa generations produktupplevelser</p>
+                            </div>
+                            <div class="service-card-body">
+                                <ul class="features-list">
+                                    <li>✓ AR-produktvisualisering</li>
+                                    <li>✓ Virtuella showrooms</li>
+                                    <li>✓ Digital twins</li>
+                                    <li>✓ Interaktiva 3D-modeller</li>
+                                </ul>
+                                
+                                <div class="use-cases">
+                                    <h4 class="use-cases-title">Branschspecifika tillämpningar</h4>
+                                    <div class="segment-tags">
+                                        <span class="segment-tag fashion"><span class="segment-tag-icon">●</span> Mode: Virtuell provning</span>
+                                        <span class="segment-tag tech"><span class="segment-tag-icon">●</span> Teknik: AR-produktdemo</span>
+                                        <span class="segment-tag b2b"><span class="segment-tag-icon">●</span> B2B: Digital produktdemonstration</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Pain Points Section -->
+            <section class="pain-points">
+                <div class="pain-points-header">
+                    <h2 class="pain-points-title">Smärtpunkter vi löser</h2>
+                    <p class="pain-points-subtitle">De vanligaste utmaningarna våra kunder svär över innan de börjar jobba med oss</p>
+                </div>
+                
+                <div class="pain-points-grid">
+                    <!-- Pain Point 1 -->
+                    <div class="pain-point-card">
+                        <h3 class="pain-point-title">Höga returkostnader</h3>
+                        <p class="pain-point-description">"Vi får in alldeles för många returer på grund av att kunderna inte förstår vad de köper. Det kostar oss en förmögenhet!"</p>
+                        <h4 class="solution-title">Våra lösningar:</h4>
+                        <ul class="solution-list">
+                            <li>Förbättrade produktbeskrivningar</li>
+                            <li>Detaljerade specifikationer</li>
+                            <li>Returorsaksanalys</li>
+                            <li>Standardiserade storleksguider</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Pain Point 2 -->
+                    <div class="pain-point-card">
+                        <h3 class="pain-point-title">Tidskrävande uppdateringar</h3>
+                        <p class="pain-point-description">"Vi spenderar timmar varje vecka på att manuellt uppdatera produktinformation i flera system. Det är ineffektivt och fel smyger sig in."</p>
+                        <h4 class="solution-title">Våra lösningar:</h4>
+                        <ul class="solution-list">
+                            <li>Centraliserad PIM-hantering</li>
+                            <li>Automatiserade arbetsflöden</li>
+                            <li>API-integrationer</li>
+                            <li>Schemalagda uppdateringar</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Pain Point 3 -->
+                    <div class="pain-point-card">
+                        <h3 class="pain-point-title">Låg konverteringsgrad</h3>
+                        <p class="pain-point-description">"Våra produktsidor genererar trafik men besökarna köper inte. De verkar inte hitta den information de behöver för att fatta köpbeslut."</p>
+                        <h4 class="solution-title">Våra lösningar:</h4>
+                        <ul class="solution-list">
+                            <li>Konverteringsoptimerade beskrivningar</li>
+                            <li>Förbättrad produktvisualisering</li>
+                            <li>Användartestning</li>
+                            <li>Personaliserade rekommendationer</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Pain Point 4 -->
+                    <div class="pain-point-card">
+                        <h3 class="pain-point-title">Inkonsekvent data mellan kanaler</h3>
+                        <p class="pain-point-description">"Vi har olika information i vår butik jämfört med online. Kunderna blir förvirrade och förtroendet för oss minskar."</p>
+                        <h4 class="solution-title">Våra lösningar:</h4>
+                        <ul class="solution-list">
+                            <li>Omnichannel-synkronisering</li>
+                            <li>Centraliserad datakälla</li>
+                            <li>Multi-kanaldistribution</li>
+                            <li>Kanalspecifika anpassningar</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Pain Point 5 -->
+                    <div class="pain-point-card">
+                        <h3 class="pain-point-title">Svagt mot konkurrenterna</h3>
+                        <p class="pain-point-description">"Våra konkurrenter syns bättre på sökmotorer och marknadsplatser. Vi vet inte hur vi ska optimera vår data för att få bättre synlighet."</p>
+                        <h4 class="solution-title">Våra lösningar:</h4>
+                        <ul class="solution-list">
+                            <li>SEO-optimerade produkttexter</li>
+                            <li>Marknadsplatsoptimering</li>
+                            <li>Konkurrentanalys</li>
+                            <li>Automatiserad prisövervakning</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Pain Point 6 -->
+                    <div class="pain-point-card">
+                        <h3 class="pain-point-title">Oförmåga att skala</h3>
+                        <p class="pain-point-description">"Vi vill växa men vår nuvarande produktdataprocess hindrar oss. Vi kan inte lägga till fler produkter eller expandera till nya marknader effektivt."</p>
+                        <h4 class="solution-title">Våra lösningar:</h4>
+                        <ul class="solution-list">
+                            <li>Skalbar PIM-arkitektur</li>
+                            <li>Automatiserad inmatning</li>
+                            <li>Massredigeringsverktyg</li>
+                            <li>Internationell anpassning</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Core Services Section -->
+            <section class="core-services">
+                <div class="core-services-header">
+                    <h2 class="core-services-title">Våra kärntjänster</h2>
+                    <p class="core-services-subtitle">Samma grundfunktionalitet, anpassad för olika branscher och behov</p>
+                </div>
+                
+                <div class="core-services-grid">
+                    <!-- Core Service 1 -->
+                    <div class="core-service-card">
+                        <div class="core-service-icon">📊</div>
+                        <h3 class="core-service-title">Produktdatafeeds</h3>
+                        <p class="core-service-description">Vi skapar och underhåller strukturerade dataflöden för distribution av produktinformation till olika kanaler och plattformar.</p>
+                        <h4 class="adaptations-title">Anpassas för:</h4>
+                        <div class="adaptations">
+                            <span class="adaptation">Google Shopping</span>
+                            <span class="adaptation">Marknadsplatser</span>
+                            <span class="adaptation">Prisjämförelser</span>
+                            <span class="adaptation">EDI-kopplingar</span>
+                            <span class="adaptation">Affiliatenätverk</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Core Service 2 -->
+                    <div class="core-service-card">
+                        <div class="core-service-icon">📝</div>
+                        <h3 class="core-service-title">Innehållsoptimering</h3>
+                        <p class="core-service-description">Vi förbättrar kvaliteten på produktbeskrivningar, titlar och attribut för att maximera konvertering och sökbarhet.</p>
+                        <h4 class="adaptations-title">Anpassas för:</h4>
+                        <div class="adaptations">
+                            <span class="adaptation">E-handelssajter</span>
+                            <span class="adaptation">Marknadsplatser</span>
+                            <span class="adaptation">Tekniska produkter</span>
+                            <span class="adaptation">Modeprodukter</span>
+                            <span class="adaptation">B2B-kataloger</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Core Service 3 -->
+                    <div class="core-service-card">
+                        <div class="core-service-icon">🔄</div>
+                        <h3 class="core-service-title">Systemintegrationer</h3>
+                        <p class="core-service-description">Vi kopplar samman e-handelssystem, PIM, ERP och andra plattformar för sömlöst dataflöde av produktinformation.</p>
+                        <h4 class="adaptations-title">Anpassas för:</h4>
+                        <div class="adaptations">
+                            <span class="adaptation">E-handelsplattformar</span>
+                            <span class="adaptation">Lagersystem</span>
+                            <span class="adaptation">PIM-system</span>
+                            <span class="adaptation">Marknadsplatser</span>
+                            <span class="adaptation">CRM-system</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Core Service 4 -->
+                    <div class="core-service-card">
+                        <div class="core-service-icon">🔍</div>
+                        <h3 class="core-service-title">Produktdataanalys</h3>
+                        <p class="core-service-description">Vi analyserar hur produktdata presterar och identifierar förbättringsmöjligheter baserat på data och användarbeteende.</p>
+                        <h4 class="adaptations-title">Anpassas för:</h4>
+                        <div class="adaptations">
+                            <span class="adaptation">Konverteringsoptimering</span>
+                            <span class="adaptation">SEO-förbättring</span>
+                            <span class="adaptation">Konkurrentanalys</span>
+                            <span class="adaptation">Returreducering</span>
+                            <span class="adaptation">Kundreseanalys</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Core Service 5 -->
+                    <div class="core-service-card">
+                        <div class="core-service-icon">📊</div>
+                        <h3 class="core-service-title">Datastrukturering</h3>
+                        <p class="core-service-description">Vi skapar logiska och enhetliga taxonomier, attributmodeller och kategorihierarkier för effektiv produktdatahantering.</p>
+                        <h4 class="adaptations-title">Anpassas för:</h4>
+                        <div class="adaptations">
+                            <span class="adaptation">E-handelsplattformar</span>
+                            <span class="adaptation">Sökfunktioner</span>
+                            <span class="adaptation">Filternavigering</span>
+                            <span class="adaptation">PIM-implementationer</span>
+                            <span class="adaptation">Internationalisering</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Core Service 6 -->
+                    <div class="core-service-card">
+                        <div class="core-service-icon">🔄</div>
+                        <h3 class="core-service-title">Automatisering</h3>
+                        <p class="core-service-description">Vi automatiserar tidskrävande processer för produktdatahantering, från inmatning till distribution och uppdatering.</p>
+                        <h4 class="adaptations-title">Anpassas för:</h4>
+                        <div class="adaptations">
+                            <span class="adaptation">Massuppdateringar</span>
+                            <span class="adaptation">Prissättning</span>
+                            <span class="adaptation">Innehållsgenerering</span>
+                            <span class="adaptation">Bildbehandling</span>
+                            <span class="adaptation">Kvalitetskontroll</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p>© 2025 re:commerce AB. Specialister på produktdatahantering.</p>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tech Level Tabs Functionality
+            const techTabs = document.querySelectorAll('.tech-tab');
+            const techContents = document.querySelectorAll('.tech-content');
+            
+            techTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabType = this.getAttribute('data-tab');
+                    
+                    // Deactivate all tabs
+                    techTabs.forEach(t => t.classList.remove('active'));
+                    techContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Activate clicked tab
+                    this.classList.add('active');
+                    document.getElementById(`${tabType}-content`).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
