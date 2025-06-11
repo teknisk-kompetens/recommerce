@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offertgenerator - re:commerce</title>
+    <!-- Ladda in Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        /* Globala stilar för body och container */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #1a1a2e; /* Standardtextfärg för offerten */
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Hela offerten som en container */
+        .offer-container {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 800px; /* Maxbredd för en bra offertupplevelse */
+        }
+        
+        /* Enskilda A4-sidor inom offerten */
+        .page {
+            width: 100%; /* Sidorna tar upp 100% av containerbredden på skärm */
+            max-width: 210mm; /* Men har en maxbredd som A4 för utskrift/stor skärm */
+            min-height: 297mm; /* Behåll minhöjd för A4-känsla */
+            margin: 0 auto; /* Centrera sidorna */
+            padding: 20mm;
+            background: white;
+            color: #1a1a2e;
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box; /* Se till att padding inkluderas i bredden */
+        }
+        
+        /* Bakgrundsdekorationer */
+        .page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+            z-index: -2;
+        }
+        
+        .page::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 150%;
+            background: radial-gradient(ellipse at center, rgba(0, 150, 143, 0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #00968f;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 600;
+            color: #00968f;
+            letter-spacing: 1px;
+        }
+        
+        .date {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .hero-section {
+            text-align: center;
+            margin: 60px 0;
+            position: relative;
+        }
+        
+        .hero-title {
+            font-size: 42px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00968f 0%, #0ea5e9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero-subtitle {
+            font-size: 18px;
+            color: #475569;
+            margin-bottom: 40px;
+        }
+        
+        .client-info {
+            background: rgba(0, 150, 143, 0.05);
+            border-left: 4px solid #00968f;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1e293b;
+            margin: 40px 0 20px 0;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #00968f, #0ea5e9);
+            border-radius: 2px;
+        }
+        
+        .offer-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .offer-table th {
+            background: linear-gradient(135deg, #00968f 0%, #0891b2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .offer-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+            font-size: 13px; /* Oförändrad som i din ursprungliga */
+            position: relative; /* För att positionera ta bort-knapp */
+        }
+        
+        .offer-table tr:hover {
+            background: rgba(0, 150, 143, 0.02);
+        }
+        
+        .price {
+            font-weight: 600;
+            color: #00968f;
+            font-size: 16px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(0, 150, 143, 0.1) 0%, rgba(14, 165, 233, 0.1) 100%);
+            border: 1px solid rgba(0, 150, 143, 0.2);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00968f, #0ea5e9);
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .total-section {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+        
+        .total-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .total-breakdown {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .total-line {
+            display: contents;
+        }
+        
+        .total-final {
+            border-top: 2px solid #00968f;
+            padding-top: 15px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #00968f;
+        }
+        
+        .terms-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e2e8f0;
+        }
+        
+        .terms-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .terms-card {
+            background: rgba(248, 250, 252, 0.8);
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            position: relative; /* För att positionera ta bort-knapp */
+        }
+        
+        .terms-card h4 {
+            color: #00968f;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .terms-card ul {
+            list-style: disc;
+            margin-left: 1.5rem;
+            font-size: 14px;
+        }
+        .terms-card ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .signature-section {
+            margin-top: 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+        
+        .signature-box {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 2px solid #cbd5e1;
+        }
+        
+        .page-break {
+            page-break-before: always; /* Tvingar sidbrytning vid utskrift */
+            height: 20px; /* Visuell brytning mellan sidor på webb */
+            background-color: transparent;
+        }
+        
+        .geometric-decoration {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, rgba(0, 150, 143, 0.1), rgba(14, 165, 233, 0.1));
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+            z-index: -1;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: linear-gradient(135deg, #00968f, #0891b2);
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Styling för redigerbara fält */
+        [contenteditable="true"],
+        input[type="text"].editable-input,
+        input[type="number"].editable-input,
+        textarea.editable-textarea {
+            outline: none;
+            border: 1px solid transparent;
+            padding: 2px 4px;
+            border-radius: 4px;
+            min-width: 50px; /* Basbredd för inputs */
+            box-sizing: border-box;
+            background-color: transparent;
+            color: inherit;
+            font-size: inherit;
+            font-family: inherit;
+            resize: none; /* Inaktivera standard resize */
+            overflow: hidden; /* Dölj scrollbars */
+        }
+        
+        [contenteditable="true"]:hover,
+        [contenteditable="true"]:focus,
+        input[type="text"].editable-input:hover,
+        input[type="text"].editable-input:focus,
+        input[type="number"].editable-input:hover,
+        input[type="number"].editable-input:focus,
+        textarea.editable-textarea:hover,
+        textarea.editable-textarea:focus {
+            border: 1px solid #00968f;
+            background-color: #f0fdfa; /* Lätt bakgrund vid fokus */
+            box-shadow: 0 0 0 2px rgba(0, 150, 143, 0.1);
+        }
+
+        /* Specifika justeringar för inputs inuti tabeller för att hålla dem små */
+        .offer-table .editable-input {
+            width: auto; /* Återställ bredd för att anpassa sig efter innehåll */
+            min-width: 50px;
+            max-width: 100%; /* Förhindra överflöd */
+            display: inline-block; /* Säkerställ att den beter sig som text */
+            text-align: left;
+        }
+        
+        .price .editable-input {
+            font-weight: 600;
+            color: #00968f;
+            font-size: 16px;
+        }
+
+        .toggle-section-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            padding: 8px 12px;
+            background-color: #e0f2f1;
+            border: 1px solid #b2dfdb;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #007973;
+            transition: background-color 0.2s;
+            width: fit-content;
+        }
+        .toggle-section-control:hover {
+            background-color: #cce8e5;
+        }
+        .toggle-section-control input[type="checkbox"] {
+            transform: scale(1.1);
+        }
+
+        /* Dölj redigerbara element vid utskrift */
+        @media print {
+            .offer-container {
+                box-shadow: none;
+                border-radius: 0;
+                overflow: visible; /* Tillåt innehåll att sträcka sig om det behövs */
+            }
+            .page {
+                box-shadow: none;
+                margin: 0;
+                padding: 20mm;
+                page-break-after: always; /* Tvinga sidbrytning */
+                width: 210mm; /* Säkerställ A4-bredd */
+                min-height: 297mm; /* Säkerställ A4-höjd */
+            }
+            .page:last-of-type {
+                page-break-after: avoid; /* Ingen sidbrytning efter sista sidan */
+            }
+
+            /* Dölj alla interaktiva kontroller och fält */
+            .toggle-section-control,
+            .add-button,
+            .remove-button,
+            .print-hidden, /* Hide elements with this class during print */
+            [contenteditable="true"],
+            input[type="text"].editable-input,
+            input[type="number"].editable-input,
+            textarea.editable-textarea {
+                border: none !important;
+                background-color: transparent !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                outline: none !important;
+                /* För contenteditable, se till att de inte tar upp extra plats */
+                white-space: pre-wrap; /* Behåll radbrytningar */
+                -webkit-print-color-adjust: exact; /* Skriv ut bakgrundsfärger */
+                color-adjust: exact;
+            }
+            /* Se till att innehållet visas som ren text vid utskrift för input/textarea */
+            input[type="text"].editable-input,
+            input[type="number"].editable-input {
+                -moz-appearance: textfield; /* Firefox */
+                -webkit-appearance: none; /* Safari/Chrome */
+                appearance: none;
+            }
+            textarea.editable-textarea {
+                overflow: visible !important; /* Säkerställ att all text skrivs ut */
+            }
+        }
+
+        /* Responsivitet för mindre skärmar */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .offer-container {
+                border-radius: 0.5rem;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            }
+            .page {
+                padding: 15mm;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 15px;
+                padding-bottom: 10px;
+            }
+            .logo {
+                font-size: 22px;
+                margin-bottom: 5px;
+            }
+            .date {
+                font-size: 11px;
+            }
+            .hero-title {
+                font-size: 28px;
+                margin-bottom: 10px;
+            }
+            .hero-subtitle {
+                font-size: 15px;
+                margin-bottom: 20px;
+            }
+            .client-info {
+                padding: 15px;
+                margin: 15px 0;
+            }
+            .section-title {
+                font-size: 18px;
+                margin: 25px 0 10px 0;
+            }
+            .section-title::after {
+                width: 30px;
+                height: 1px;
+            }
+            .offer-table {
+                margin: 15px 0;
+                border-radius: 6px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            }
+            .offer-table th, .offer-table td {
+                padding: 10px;
+                font-size: 11px;
+            }
+            .price {
+                font-size: 13px;
+            }
+            .highlight-box {
+                padding: 18px;
+                margin: 15px 0;
+                border-radius: 6px;
+            }
+            .highlight-box::before {
+                height: 2px;
+                border-radius: 6px 6px 0 0;
+            }
+            .total-section {
+                padding: 20px;
+                border-radius: 6px;
+                margin: 25px 0;
+            }
+            .total-title {
+                font-size: 16px;
+                margin-bottom: 8px;
+            }
+            .total-breakdown {
+                gap: 3px;
+            }
+            .total-line {
+                font-size: 12px;
+            }
+            .total-final {
+                font-size: 18px;
+                padding-top: 8px;
+            }
+            .terms-section {
+                margin-top: 25px;
+                padding-top: 15px;
+            }
+            .terms-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .terms-card {
+                padding: 15px;
+            }
+            .terms-card h4 {
+                font-size: 15px;
+            }
+            .terms-card ul {
+                font-size: 13px;
+            }
+            .signature-section {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .signature-box {
+                padding-top: 20px;
+            }
+            .geometric-decoration {
+                width: 100px;
+                height: 100px;
+                top: -50px;
+                right: -50px;
+            }
+            .status-badge {
+                padding: 2px 8px;
+                font-size: 10px;
+            }
+            .toggle-section-control {
+                font-size: 12px;
+                padding: 6px 10px;
+                margin-bottom: 10px;
+            }
+
+            .add-button {
+                padding: 6px 12px;
+                font-size: 12px;
+                border-radius: 0.5rem;
+            }
+            .remove-button {
+                top: 5px;
+                right: 5px;
+                width: 20px;
+                height: 20px;
+                font-size: 12px;
+            }
+        }
+
+        /* Add/Remove Button Styles */
+        .add-button {
+            background-color: #00968f;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .add-button:hover {
+            background-color: #007973;
+            transform: translateY(-1px);
+        }
+
+        .remove-button {
+            background-color: #ef4444; /* Röd */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            transition: background-color 0.2s, transform 0.1s;
+            z-index: 10; /* Se till att den är över innehållet */
+        }
+        .remove-button:hover {
+            background-color: #dc2626;
+            transform: scale(1.1);
+        }
+        /* Style for small add button within terms cards */
+        .add-button-small {
+            background-color: #00968f;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 12px;
+            margin-top: 10px;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .add-button-small:hover {
+            background-color: #007973;
+            transform: translateY(-1px);
+        }
+
+        .remove-list-item {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: inline-flex; /* Use inline-flex to keep it with text */
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-left: 5px; /* Spacing from text */
+            vertical-align: middle; /* Align with text */
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .remove-list-item:hover {
+            background-color: #dc2626;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="offer-container" id="offerContainer">
+        <!-- Utskriftsknapp i toppen av containern -->
+        <div class="print-button-container" style="text-align: center; padding: 15px; background-color: #f3f4f6; border-radius: 1.5rem 1.5rem 0 0;">
+            <button onclick="window.print()" class="add-button">Skriv ut Offert</button>
+        </div>
+
+        <!-- FÖRSTASIDA -->
+        <div class="page">
+            <div class="geometric-decoration"></div>
+            
+            <header class="header">
+              <div class="logo">
+                <svg viewBox="65 219.34 420 31.32" xmlns="http://www.w3.org/2000/svg" aria-label="re:commerce logo" role="img" class="logo-svg" style="width: 100%; height: 100%; display: block;">
+                  <path d="M79.518 230.169c.606-1.634 1.307-2.708 3.127-2.708h4.668v-7.329h-4.668c-4.388 0-8.589 3.501-9.99 7.562L65 249.681h7.749zM98.112 234.837c0 8.029 6.349 14.844 14.471 14.844h13.957v-7.422h-13.957c-4.015 0-7.049-3.501-7.049-7.422 0-3.968 3.034-7.47 7.049-7.47h6.349c1.447 0 1.213 1.635 1.213 2.568 0 .654-.56 1.214-1.213 1.214h-9.803v7.422h9.803c4.714 0 8.589-3.874 8.589-8.636v-1.354c0-4.714-3.875-8.589-8.59-8.589h-6.348c-8.122 0-14.471 6.816-14.471 14.845zM144.295 240.905c-2.614 0-4.715 2.147-4.715 4.715 0 2.614 2.1 4.715 4.715 4.715 2.614 0 4.714-2.101 4.714-4.715 0-2.568-2.1-4.715-4.714-4.715zm0-15.545a4.702 4.702 0 0 0-4.715 4.715c0 2.614 2.1 4.715 4.715 4.715 2.614 0 4.714-2.1 4.714-4.715 0-2.614-2.1-4.715-4.714-4.715zM160.648 234.93c0 8.122 6.302 14.751 14.051 14.751h10.363v-7.422H174.7c-3.64 0-6.628-3.268-6.628-7.329s2.987-7.376 6.628-7.376h10.363v-7.422H174.7c-7.749 0-14.05 6.629-14.05 14.798zM212.76 219.479c-8.543 0-15.218 7.142-15.218 15.591 0 8.403 6.675 15.591 15.217 15.591 8.543 0 15.172-7.188 15.172-15.591 0-8.45-6.63-15.591-15.172-15.591zm0 23.807c-4.529 0-7.89-3.875-7.89-8.216 0-4.388 3.408-8.262 7.89-8.262 4.48 0 7.842 3.874 7.842 8.262 0 4.341-3.361 8.216-7.843 8.216zM268.745 219.339c-3.221 0-6.162 1.307-8.356 3.407a11.902 11.902 0 0 0-8.356-3.407c-6.628 0-12.043 5.415-12.043 12.09v18.252h7.422v-18.252c0-2.567 2.054-4.668 4.621-4.668 2.568 0 4.668 2.1 4.668 4.668v18.252h7.422v-18.252c0-2.567 2.054-4.668 4.622-4.668 2.567 0 4.668 2.1 4.668 4.668v18.252h7.422v-18.252c0-6.675-5.415-12.09-12.09-12.09zM321.65 219.339c-3.222 0-6.162 1.307-8.356 3.407a11.902 11.902 0 0 0-8.356-3.407c-6.629 0-12.044 5.415-12.044 12.09v18.252h7.422v-18.252c0-2.567 2.054-4.668 4.622-4.668 2.567 0 4.668 2.1 4.668 4.668v18.252h7.422v-18.252c0-2.567 2.054-4.668 4.621-4.668 2.568 0 4.668 2.1 4.668 4.668v18.252h7.423v-18.252c0-6.675-5.415-12.09-12.09-12.09zM345.799 234.837c0 8.029 6.348 14.844 14.470 14.844h13.958v-7.422H360.27c-4.015 0-7.049-3.501-7.049-7.422 0-3.968 3.034-7.47 7.049-7.47h6.348c1.447 0 1.214 1.635 1.214 2.568 0 .654-.56 1.214-1.214 1.214h-9.803v7.422h9.803c4.715 0 8.59-3.874 8.59-8.636v-1.354c0-4.714-3.875-8.589-8.59-8.589h-6.348c-8.123 0-14.471 6.816-14.471 14.845zM400.524 230.169c.607-1.634 1.307-2.708 3.127-2.708h4.669v-7.329h-4.669c-4.388 0-8.589 3.501-9.99 7.562l-7.655 21.987h7.75zM418.698 234.93c0 8.122 6.302 14.751 14.051 14.751h10.363v-7.422h-10.363c-3.641 0-6.629-3.268-6.629-7.329s2.988-7.376 6.629-7.376h10.363v-7.422h-10.363c-7.749 0-14.05 6.629-14.05 14.798zM455.591 234.837c0 8.029 6.349 14.844 14.471 14.844h13.958v-7.422h-13.958c-4.014 0-7.049-3.501-7.049-7.422 0-3.968 3.035-7.47 7.05-7.47h6.348c1.447 0 1.213 1.635 1.213 2.568 0 .654-.56 1.214-1.213 1.214h-9.803v7.422h9.803c4.715 0 8.589-3.874 8.589-8.636v-1.354c0-4.714-3.874-8.589-8.59-8.589h-6.348c-8.122 0-14.470 6.816-14.470 14.845z" />
+                </svg>
+              </div>
+              <div class="date"><span contenteditable="true" id="currentDate">Juni 2025</span></div>
+            </header>
+            
+            <div class="hero-section">
+                <h1 class="hero-title">Digital Marknadsföring<br>& Strategiskt Partnerskap</h1>
+                <p class="hero-subtitle">Förvandla Digitalt Brus till Mätbar Vinst</p>
+                <div class="status-badge">Premium Offert</div>
+            </div>
+            
+            <div class="client-info">
+                <h3 style="color: #00968f; margin-bottom: 10px;">Till: <span contenteditable="true" id="clientName" oninput="updateClientNames()">RK9 Tjänstehundar</span></h3>
+                <p><strong>Kontaktperson:</strong> <span contenteditable="true" id="contactPerson">Robin</span></p>
+                <p><strong>Tjänst:</strong> <span contenteditable="true" id="serviceName">Hundträningskurser</span></p>
+                <p><strong>Kursavgift:</strong> <input type="number" class="editable-input price-input" id="courseFee" value="36000" oninput="updateOfferValues()"> SEK inkl. moms</p>
+            </div>
+            
+            <div class="highlight-box">
+                <h3 style="color: #00968f; margin-bottom: 15px;">Vår Smarta Lösning</h3>
+                <p><strong>Nischade Landningssidor:</strong> SEO-optimerade sidor för organisk trafik</p>
+                <p><strong>Optimering & Tillväxt:</strong> Effektiva annons-trattar och leadsgenerering via re:commerce's etablerade annonskonton</p>
+                <p><strong>Personlig Leads-hantering:</strong> Direkt kontakt och snabb uppföljning</p>
+                <p><strong>Strategisk Överlämning:</strong> Överföring av innehåll för maximal framtida förvaltning</p>
+            </div>
+        </div>
+        
+        <!-- OFFERTSIDA -->
+        <div class="page page-break">
+            <header class="header">
+                <div class="logo">re:commerce</div>
+                <div class="date">Offert - <span id="clientNameOutput2">RK9 Tjänstehundar</span></div>
+            </header>
+            
+            <h2 class="section-title">Investeringsmodell</h2>
+            
+            <table class="offer-table">
+                <thead>
+                    <tr>
+                        <th>Beskrivning</th>
+                        <th>Specifikation</th>
+                        <th>Antal</th>
+                        <th>Pris</th>
+                        <th class="print-hidden"></th> <!-- Tom kolumn för ta bort-knapp -->
+                    </tr>
+                </thead>
+                <tbody id="offerTableBody">
+                    <tr>
+                        <td><strong>Projektstart & Intensifiering</strong><br><small>Månad 1</small></td>
+                        <td><textarea class="editable-textarea" id="projectStartDesc" oninput="autoExpandTextarea(this)">Initial strategiutveckling, AI-genererade landningssidor, uppsättning av annonskampanjer, teknisk konfiguration och den första månadens kampanjkörning. Inkluderar även medel för en extra månad av intensifierad uppstartsperiod samt engångsrådgivning vid behov för snabb igångsättning.</textarea></td>
+                        <td>1 st</td>
+                        <td class="price"><input type="number" class="editable-input price-input" id="projectStartFee" value="12500" oninput="updateOfferValues()"> SEK</td>
+                        <td class="print-hidden"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Löpande Kampanjhantering</strong><br><small>Månad 2-3</small></td>
+                        <td><textarea class="editable-textarea" id="campaignHandlingDesc" oninput="autoExpandTextarea(this)">Annonsoptimering, leadsgenerering via re:commerce's annonskonton, månadsrapporter och kontinuerlig systemförbättring. Inkl. 5 000 SEK/mån dedikerad till annonsbudget.</textarea></td>
+                        <td>2 mån</td>
+                        <td class="price"><input type="number" class="editable-input price-input" id="monthlyRetainer2_3" value="5000" oninput="updateOfferValues()"> SEK/mån</td>
+                        <td class="print-hidden"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Månadsretainer - Systemförvaltning & Strategi</strong><br><small>Månad 4+</small></td>
+                        <td><textarea class="editable-textarea" id="systemManagementDesc" oninput="autoExpandTextarea(this)">Löpande teknisk support, optimering av befintliga system, strategisk rådgivning och resultatrapportering.</textarea></td>
+                        <td>12 mån</td>
+                        <td class="price"><input type="number" class="editable-input price-input" id="monthlyRetainer4_plus" value="2500" oninput="updateOfferValues()"> SEK/mån</td>
+                        <td class="print-hidden"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Provisionsbaserad Tjänst</strong><br><small>Leadsgenerering</small></td>
+                        <td><textarea class="editable-textarea" id="provisionServiceDesc" oninput="autoExpandTextarea(this)">Provision på 100% av genererade leads upp till 288 000 SEK/år (8 kursdeltagare). Kickar in efter att kund fyllt 8 egna kursplatser. Därefter 35% provision för ytterligare deltagare.</textarea></td>
+                        <td>1 st</td>
+                        <td class="price">Enligt provision</td>
+                        <td class="print-hidden"></td>
+                    </tr>
+                    <tr class="optional-row" id="extraBudgetRow">
+                        <td><strong>Extra Kampanjbudget</strong><br><small>Tillval - Uppstartsperiod</small></td>
+                        <td><textarea class="editable-textarea" id="extraBudgetDesc" oninput="autoExpandTextarea(this)">Ytterligare marknadsföringssatsning för snabbare resultat. Medel läggs direkt på annonsiterering för ökad effekt.</textarea></td>
+                        <td>1 st</td>
+                        <td class="price"><input type="number" class="editable-input price-input" id="extraBudgetMin" value="5000" oninput="updateOfferValues()"> - <input type="number" class="editable-input price-input" id="extraBudgetMax" value="10000" oninput="updateOfferValues()"> SEK</td>
+                        <td class="print-hidden"><button class="remove-button" onclick="removeRow(this.parentNode.parentNode)">×</button></td>
+                    </tr>
+                    <tr class="optional-row" id="systemTransferRow">
+                        <td><strong>Systemöverföring</strong><br><small>Vid Avtalets Slut</small></td>
+                        <td><textarea class="editable-textarea" id="systemTransferDesc" oninput="autoExpandTextarea(this)">Överföring av landningssidornas innehåll och annonskampanjernas struktur för förvaltning på kundens egen plattform, inklusive teknisk support vid övergången.</textarea></td>
+                        <td>1 st</td>
+                        <td class="price">0 SEK (ingår)</td>
+                        <td class="print-hidden"><button class="remove-button" onclick="removeRow(this.parentNode.parentNode)">×</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="add-button print-hidden" onclick="addTableRow()">+ Lägg till rad</button>
+            
+            <div class="total-section">
+                <div class="total-title">Total Investering Första Året</div>
+                <div class="total-breakdown">
+                    <div class="total-line">
+                        <span>Fast Arvode (Månad 1-3):</span>
+                        <span id="fixedFeeQ1">22 500 SEK</span>
+                    </div>
+                    <div class="total-line">
+                        <span>Fast Arvode (Månad 4-12):</span>
+                        <span id="fixedFeeQ4">22 500 SEK</span>
+                    </div>
+                    <div class="total-line">
+                        <span>Extra Kampanjbudget (tillval):</span>
+                        <span id="extraBudgetTotal">5 000 - 10 000 SEK</span>
+                    </div>
+                </div>
+                <div class="total-final">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Fast kostnad totalt:</span>
+                        <span id="totalFixedCost">45 000 SEK</span> + provision
+                    </div>
+                </div>
+            </div>
+            
+            <div class="highlight-box">
+                <h3 style="color: #00968f; margin-bottom: 15px;">Provisionsmodell - Förenkla</h3>
+                <p><strong>Fas 1:</strong> re:commerce erhåller 100% provision upp till <input type="number" class="editable-input price-input" id="provisionCap" value="288000" oninput="updateOfferValues()">/år (8 kursdeltagare)</p>
+                <p><strong>Fas 2:</strong> Därefter delad provision - re:commerce <input type="number" class="editable-input" id="provisionPercentage" value="35" oninput="updateOfferValues()" style="width: 40px; text-align: center;">%, <span id="clientNameOutput3">RK9 Tjänstehundar</span> <span id="remainingProvision">65</span>%</p>
+                <p style="margin-top: 15px; font-style: italic; color: #64748b;">Provision börjar efter att <span id="clientNameOutput4">RK9 Tjänstehundar</span> fyllt 8 egna kursplatser under året.</p>
+            </div>
+        </div>
+        
+        <!-- VILLKORSSIDA -->
+        <div class="page page-break">
+            <header class="header">
+                <div class="logo">re:commerce</div>
+                <div class="date">Villkor & Avtal</div>
+            </header>
+            
+            <h2 class="section-title">Avtalsvillkor & Specifikationer</h2>
+            
+            <div class="terms-grid" id="termsGrid">
+                <div class="terms-card">
+                    <button class="remove-button print-hidden" onclick="removeCard(this.parentNode)">×</button>
+                    <h4>Leverans & Tidsramar</h4>
+                    <p><strong>Projektstart:</strong> <span contenteditable="true">7 arbetsdagar</span> efter accepterad offert</p>
+                    <p><strong>Första resultat:</strong> <span contenteditable="true">Kampanjer aktiva inom 14 dagar</span></p>
+                    <p><strong>Rapportering:</strong> <span contenteditable="true">Månadsvis</span> med nyckeltal och leadsstatus</p>
+                </div>
+                
+                <div class="terms-card">
+                    <button class="remove-button print-hidden" onclick="removeCard(this.parentNode)">×</button>
+                    <h4>Betalningsvillkor</h4>
+                    <p><strong>Uppstartsavgift:</strong> <span contenteditable="true">Förskottsbetalning månad 1</span></p>
+                    <p><strong>Månadsavgifter:</strong> <span contenteditable="true">Faktureras i förskott, 10 dagars betalningsvillkor</span></p>
+                    <p><strong>Provision:</strong> <span contenteditable="true">Faktureras månadsvis efter genomförd kurs</span></p>
+                </div>
+                
+                <div class="terms-card">
+                    <button class="remove-button print-hidden" onclick="removeCard(this.parentNode)">×</button>
+                    <h4>Avtal & Bindning</h4>
+                    <p><strong>Bindningstid:</strong> <span contenteditable="true">2 år om provision överstiger 288 000 SEK första året, annars 1 år</span></p>
+                    <p><strong>Uppsägning:</strong> <span contenteditable="true">3 månaders skriftlig uppsägningstid</span></p>
+                    <p><strong>Systemöverföring:</strong> Se avsnitt om Immateriella Rättigheter</p>
+                </div>
+                
+                <div class="terms-card">
+                    <button class="remove-button print-hidden" onclick="removeCard(this.parentNode)">×</button>
+                    <h4>Prestationsgaranti</h4>
+                    <p><strong>Kvalificeringsperiod:</strong> <span contenteditable="true">Första 3 månaderna</span></p>
+                    <p><strong>Justering:</strong> <span contenteditable="true">Kontinuerlig kampanjoptimering för att maximera leads och konverteringar.</span></p>
+                </div>
+                
+                <div class="terms-card">
+                    <button class="remove-button print-hidden" onclick="removeCard(this.parentNode)">×</button>
+                    <h4>Ansvar & Begränsningar</h4>
+                    <p><strong>re:commerce ansvarar för:</strong> <span contenteditable="true">Teknisk drift, kampanjoptimering, leadskvalitet</span></p>
+                    <p><strong>Kund ansvarar för:</strong> <span contenteditable="true">Snabb uppföljning av leads och kursleverans</span></p>
+                    <p><strong>Force majeure:</strong> <span contenteditable="true">Ändringar i plattformspolicys kan påverka leveransen</span></p>
+                </div>
+                
+                <div class="terms-card">
+                    <button class="remove-button print-hidden" onclick="removeCard(this.parentNode)">×</button>
+                    <h4>Immateriella Rättigheter</h4>
+                    <p><strong>Under avtalstid:</strong> <textarea class="editable-textarea" id="immaterialRightsDesc" oninput="autoExpandTextarea(this)">re:commerce äger de tekniska verktyg och plattformar som används för kampanjdrift (inkl. annonskonton), medan RK9 Tjänstehundar äger sitt varumärke och de genererade leadsdata.</textarea></p>
+                    <p><strong>Efter avtalstid:</strong> <textarea class="editable-textarea" id="immaterialRightsAfterDesc" oninput="autoExpandTextarea(this)">RK9 Tjänstehundar får full äganderätt till landningssidornas innehåll, annonskampanjernas kreativa material och struktur, samt insamlad leadsdata. re:commerce bibehåller äganderätten till den underliggande domänauktoritet samt de gemensamma annonskonton som använts för kampanjdrift.</textarea></p>
+                    <p><strong>Tillämplig lag:</strong> <span contenteditable="true">Svensk lag, tvistelösning i Stockholm</span></p>
+                </div>
+
+                <div class="terms-card optional-card" id="retainerAdjustmentCard">
+                    <button class="remove-button print-hidden" onclick="removeCard(this.parentNode)">×</button>
+                    <h4>Värdebaserad Retainer-justering</h4>
+                    <p>Den månatliga retaineravgiften från Månad 4+ justeras automatiskt baserat på det genererade värdet för <span id="clientNameOutput5">RK9 Tjänstehundar</span>. Detta säkerställer att vår ersättning alltid reflekterar det ökade värde ni erhåller:</p>
+                    <ul>
+                        <li><strong>Fas 1 (initial):</strong> <span id="retainerPhase1Output">2 500</span> SEK/månad</li>
+                        <li><strong>Fas 2:</strong> <span id="retainerPhase2Output">5 000</span> SEK/månad vid uppnådd total intäkt om <strong><input type="number" class="editable-input price-input" id="retainerPhase2Threshold" value="300000" oninput="updateOfferValues()"> SEK</strong> från re:commerce-genererade kursdeltagare.</li>
+                        <li><strong>Fas 3:</strong> <span id="retainerPhase3Output">7 500</span> SEK/månad vid uppnådd total intäkt om <strong><input type="number" class="editable-input price-input" id="retainerPhase3Threshold" value="600000" oninput="updateOfferValues()"> SEK</strong> från re:commerce-genererade kursdeltagare.</li>
+                    </ul>
+                </div>
+            </div>
+            <button class="add-button print-hidden" onclick="addTermsCard()">+ Lägg till villkor</button>
+
+            <div class="highlight-box" style="margin-top: 40px;">
+                <h3 style="color: #00968f; margin-bottom: 15px;">Nästa Steg</h3>
+                <p><strong>1.</strong> Acceptera denna offert genom signering</p>
+                <p><strong>2.</strong> Betala startavgiften (<span id="projectStartFeeOutput2">12 500</span> SEK)</p>
+                <p><strong>3.</strong> Vi kickstartar projektet inom 7 dagar</p>
+                <p style="margin-top: 15px; font-style: italic;">Offertens giltighet: <span contenteditable="true">30 dagar</span> från utskicksdatum</p>
+            </div>
+            
+            <div class="signature-section">
+                <div class="signature-box">
+                    <p><strong>re:commerce</strong></p>
+                    <p>Datum: _______________</p>
+                    <p>Underskrift: _______________</p>
+                </div>
+                
+                <div class="signature-box">
+                    <p><strong><span id="clientNameOutput6">RK9 Tjänstehundar</span></strong></p>
+                    <p>Datum: _______________</p>
+                    <p>Underskrift: _______________</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funktion för att formatera valuta
+        function formatCurrency(amount) {
+            if (isNaN(amount) || amount === null) return '0 SEK'; // Hantera null/NaN
+            return new Intl.NumberFormat('sv-SE', { style: 'decimal' }).format(amount) + ' SEK';
+        }
+
+        // Automatisk storleksändring av textarea
+        function autoExpandTextarea(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = (textarea.scrollHeight) + 'px';
+            // updateOfferValues(); // No need to call updateOfferValues here, it's called on input
+        }
+
+        // Uppdatera alla klientnamn-output element
+        function updateClientNames() {
+            const clientName = document.getElementById('clientName').textContent;
+            document.getElementById('clientNameOutput2').textContent = clientName;
+            document.getElementById('clientNameOutput3').textContent = clientName;
+            document.getElementById('clientNameOutput4').textContent = clientName;
+            document.getElementById('clientNameOutput5').textContent = clientName;
+            document.getElementById('clientNameOutput6').textContent = clientName;
+        }
+
+        // Lägg till en ny tabellrad
+        function addTableRow() {
+            const tbody = document.getElementById('offerTableBody');
+            const newRow = document.createElement('tr');
+            newRow.className = 'optional-row'; // Markera som valfri rad för borttagning
+            newRow.innerHTML = `
+                <td><textarea class="editable-textarea" oninput="autoExpandTextarea(this)">Ny tjänst</textarea><br><small contenteditable="true">Specifikation</small></td>
+                <td><textarea class="editable-textarea" oninput="autoExpandTextarea(this)">Detaljerad beskrivning av tjänsten.</textarea></td>
+                <td><input type="text" class="editable-input" value="1 st" oninput="updateOfferValues()" style="width: 60px; text-align: center;"></td>
+                <td class="price"><input type="number" class="editable-input price-input" value="0" oninput="updateOfferValues()"> SEK</td>
+                <td class="print-hidden"><button class="remove-button" onclick="removeRow(this.parentNode.parentNode)">×</button></td>
+            `;
+            tbody.appendChild(newRow);
+            // Sätt fokus på den nya textarean och expandera
+            const newTextArea = newRow.querySelector('textarea.editable-textarea');
+            if (newTextArea) {
+                newTextArea.focus();
+                autoExpandTextarea(newTextArea);
+            }
+            updateOfferValues(); // Uppdatera totaler etc.
+        }
+
+        // Ta bort en tabellrad
+        function removeRow(rowElement) {
+            rowElement.parentNode.removeChild(rowElement);
+            updateOfferValues(); // Uppdatera totaler etc.
+        }
+
+        // Lägg till ett nytt villkorskort
+        function addTermsCard() {
+            const termsGrid = document.getElementById('termsGrid');
+            const newCard = document.createElement('div');
+            newCard.className = 'terms-card optional-card'; // Markera som valfritt kort
+            newCard.innerHTML = `
+                <button class="remove-button print-hidden" onclick="removeCard(this.parentNode)">×</button>
+                <h4><span contenteditable="true">Nytt Villkor</span></h4>
+                <p><span contenteditable="true">Beskrivning av det nya villkoret.</span></p>
+                <ul>
+                    <li><span contenteditable="true">Punkt 1</span> <button class="remove-list-item print-hidden" onclick="removeListItem(this.parentNode)">×</button></li>
+                    <li><span contenteditable="true">Punkt 2</span> <button class="remove-list-item print-hidden" onclick="removeListItem(this.parentNode)">×</button></li>
+                </ul>
+                <button class="add-button-small print-hidden" onclick="addListItem(this.querySelector('ul'))">+ Lägg till punkt</button>
+            `;
+            termsGrid.appendChild(newCard);
+            const newContentEditable = newCard.querySelector('h4 span[contenteditable="true"]');
+            if (newContentEditable) {
+                newContentEditable.focus();
+            }
+            updateOfferValues();
+        }
+
+        // Ta bort ett villkorskort
+        function removeCard(cardElement) {
+            cardElement.parentNode.removeChild(cardElement);
+            updateOfferValues();
+        }
+
+        // Lägg till en ny punkt i en villkorskort (för listor)
+        function addListItem(ulElement) {
+            const newLi = document.createElement('li');
+            newLi.innerHTML = `<span contenteditable="true">Ny punkt</span> <button class="remove-list-item print-hidden" onclick="removeListItem(this.parentNode)">×</button>`;
+            ulElement.appendChild(newLi);
+            newLi.querySelector('[contenteditable="true"]').focus();
+        }
+
+        // Ta bort en punkt i en villkorskort
+        function removeListItem(liElement) {
+            liElement.parentNode.removeChild(liElement);
+        }
+
+
+        // Huvudfunktion för att uppdatera alla dynamiska värden
+        function updateOfferValues() {
+            // Hämta värden från de redigerbara fälten
+            const clientName = document.getElementById('clientName').textContent;
+            const contactPerson = document.getElementById('contactPerson').textContent;
+            const serviceName = document.getElementById('serviceName').textContent;
+            const courseFee = parseFloat(document.getElementById('courseFee').value);
+            const projectStartFee = parseFloat(document.getElementById('projectStartFee').value);
+            const monthlyRetainer2_3 = parseFloat(document.getElementById('monthlyRetainer2_3').value);
+            const monthlyRetainer4_plus = parseFloat(document.getElementById('monthlyRetainer4_plus').value);
+            const provisionCap = parseFloat(document.getElementById('provisionCap').value);
+            const provisionPercentage = parseFloat(document.getElementById('provisionPercentage').value);
+            const extraBudgetMin = parseFloat(document.getElementById('extraBudgetMin').value);
+            const extraBudgetMax = parseFloat(document.getElementById('extraBudgetMax').value);
+            const retainerPhase2Threshold = parseFloat(document.getElementById('retainerPhase2Threshold').value);
+            const retainerPhase3Threshold = parseFloat(document.getElementById('retainerPhase3Threshold').value);
+            const currentDate = document.getElementById('currentDate').textContent;
+
+            // Hämta värden från textareas (som är editable-textarea)
+            const projectStartDesc = document.getElementById('projectStartDesc').value;
+            const campaignHandlingDesc = document.getElementById('campaignHandlingDesc').value;
+            const systemManagementDesc = document.getElementById('systemManagementDesc').value;
+            const provisionServiceDesc = document.getElementById('provisionServiceDesc').value;
+            const extraBudgetDesc = document.getElementById('extraBudgetDesc').value;
+            const systemTransferDesc = document.getElementById('systemTransferDesc').value;
+            const immaterialRightsDesc = document.getElementById('immaterialRightsDesc').value;
+            const immaterialRightsAfterDesc = document.getElementById('immaterialRightsAfterDesc').value;
+
+            // Uppdatera client names
+            updateClientNames();
+
+            // Uppdatera datum
+            document.querySelectorAll('.date').forEach(el => el.textContent = currentDate);
+
+            // Uppdatera client info input values (these are the inputs that are directly visible)
+            // Note: The span elements next to them are the actual displayed text that gets updated
+            document.getElementById('courseFee').value = courseFee;
+
+            // Update price inputs in table
+            document.getElementById('projectStartFee').value = projectStartFee;
+            document.getElementById('monthlyRetainer2_3').value = monthlyRetainer2_3;
+            document.getElementById('monthlyRetainer4_plus').value = monthlyRetainer4_plus;
+            document.getElementById('provisionCap').value = provisionCap;
+            document.getElementById('provisionPercentage').value = provisionPercentage;
+            document.getElementById('extraBudgetMin').value = extraBudgetMin;
+            document.getElementById('extraBudgetMax').value = extraBudgetMax;
+            document.getElementById('retainerPhase2Threshold').value = retainerPhase2Threshold;
+            document.getElementById('retainerPhase3Threshold').value = retainerPhase3Threshold;
+
+
+            // Update displayed text values (these are the spans or contenteditable elements)
+            document.querySelector('#clientInfo .price input').previousSibling.textContent = formatCurrency(courseFee);
+            document.querySelector('#offerTableBody #projectStartFee').previousSibling.textContent = formatCurrency(projectStartFee);
+            document.querySelector('#offerTableBody #monthlyRetainer2_3').previousSibling.textContent = formatCurrency(monthlyRetainer2_3);
+            document.querySelector('#offerTableBody #monthlyRetainer4_plus').previousSibling.textContent = formatCurrency(monthlyRetainer4_plus);
+            
+            document.querySelector('.highlight-box #provisionCap').previousSibling.textContent = formatCurrency(provisionCap);
+            document.getElementById('remainingProvision').textContent = (100 - provisionPercentage);
+            
+            // Check if elements for extra budget and system transfer exist before trying to update
+            const extraBudgetMinElement = document.querySelector('#extraBudgetRow .price input:nth-of-type(1)');
+            const extraBudgetMaxElement = document.querySelector('#extraBudgetRow .price input:nth-of-type(2)');
+
+            if (extraBudgetMinElement && extraBudgetMaxElement) {
+                extraBudgetMinElement.previousSibling.textContent = formatCurrency(extraBudgetMin);
+                extraBudgetMaxElement.previousSibling.textContent = formatCurrency(extraBudgetMax);
+            }
+            
+            // Beräkna och uppdatera totaler
+            const fixedFeeQ1 = projectStartFee + (monthlyRetainer2_3 * 2);
+            const fixedFeeQ4 = monthlyRetainer4_plus * 9;
+            const totalFixedCost = fixedFeeQ1 + fixedFeeQ4;
+
+            document.getElementById('fixedFeeQ1').textContent = formatCurrency(fixedFeeQ1);
+            document.getElementById('fixedFeeQ4').textContent = formatCurrency(fixedFeeQ4);
+            document.getElementById('extraBudgetTotal').textContent = `${formatCurrency(extraBudgetMin)} - ${formatCurrency(extraBudgetMax)}`;
+            document.getElementById('totalFixedCost').textContent = formatCurrency(totalFixedCost);
+
+            // Uppdatera retainer justering
+            const retainerPhase1Cost = monthlyRetainer4_plus;
+            const retainerPhase2Cost = monthlyRetainer4_plus + 2500;
+            const retainerPhase3Cost = monthlyRetainer4_plus + 5000;
+
+            document.getElementById('retainerPhase1Output').textContent = formatCurrency(retainerPhase1Cost);
+            document.getElementById('retainerPhase2Output').textContent = formatCurrency(retainerPhase2Cost);
+            document.getElementById('retainerPhase3Output').textContent = formatCurrency(retainerPhase3Cost);
+            
+            // Check if elements for retainer adjustment thresholds exist before trying to update
+            const retainerPhase2ThresholdElement = document.getElementById('retainerPhase2Threshold');
+            const retainerPhase3ThresholdElement = document.getElementById('retainerPhase3Threshold');
+
+            if (retainerPhase2ThresholdElement) {
+                retainerPhase2ThresholdElement.previousSibling.textContent = formatCurrency(retainerPhase2Threshold);
+            }
+            if (retainerPhase3ThresholdElement) {
+                retainerPhase3ThresholdElement.previousSibling.textContent = formatCurrency(retainerPhase3Threshold);
+            }
+
+            document.getElementById('projectStartFeeOutput2').textContent = formatCurrency(projectStartFee);
+
+            // Auto-expand all textareas on update to ensure they fit content
+            document.querySelectorAll('textarea.editable-textarea').forEach(textarea => autoExpandTextarea(textarea));
+        }
+
+        // Initiera offerten med standardvärden när sidan laddas
+        window.onload = () => {
+            // Sätt initiala värden till de redigerbara fälten och textareas
+            document.getElementById('clientName').textContent = "RK9 Tjänstehundar";
+            document.getElementById('contactPerson').textContent = "Robin";
+            document.getElementById('serviceName').textContent = "Hundträningskurser";
+            document.getElementById('courseFee').value = "36000";
+            document.getElementById('projectStartFee').value = "12500";
+            document.getElementById('monthlyRetainer2_3').value = "5000";
+            document.getElementById('monthlyRetainer4_plus').value = "2500";
+            document.getElementById('provisionCap').value = "288000";
+            document.getElementById('provisionPercentage').value = "35";
+            document.getElementById('extraBudgetMin').value = "5000";
+            document.getElementById('extraBudgetMax').value = "10000";
+            document.getElementById('retainerPhase2Threshold').value = "300000";
+            document.getElementById('retainerPhase3Threshold').value = "600000";
+            document.getElementById('currentDate').textContent = "Juni 2025";
+            
+            document.getElementById('projectStartDesc').value = "Initial strategiutveckling, AI-genererade landningssidor, uppsättning av annonskampanjer, teknisk konfiguration och den första månadens kampanjkörning. Inkluderar även medel för en extra månad av intensifierad uppstartsperiod samt engångsrådgivning vid behov för snabb igångsättning.";
+            document.getElementById('campaignHandlingDesc').value = "Annonsoptimering, leadsgenerering via re:commerce's annonskonton, månadsrapporter och kontinuerlig systemförbättring. Inkl. 5 000 SEK/mån dedikerad till annonsbudget.";
+            document.getElementById('systemManagementDesc').value = "Löpande teknisk support, optimering av befintliga system, strategisk rådgivning och resultatrapportering.";
+            document.getElementById('provisionServiceDesc').value = "Provision på 100% av genererade leads upp till 288 000 SEK/år (8 kursdeltagare). Kickar in efter att kund fyllt 8 egna kursplatser. Därefter 35% provision för ytterligare deltagare.";
+            document.getElementById('extraBudgetDesc').value = "Ytterligare marknadsföringssatsning för snabbare resultat. Medel läggs direkt på annonsiterering för ökad effekt.";
+            document.getElementById('systemTransferDesc').value = "Överföring av landningssidornas innehåll och annonskampanjernas struktur för förvaltning på kundens egen plattform, inklusive teknisk support vid övergången.";
+            document.getElementById('immaterialRightsDesc').value = "re:commerce äger de tekniska verktyg och plattformar som används för kampanjdrift (inkl. annonskonton), medan RK9 Tjänstehundar äger sitt varumärke och de genererade leadsdata.";
+            document.getElementById('immaterialRightsAfterDesc').value = "RK9 Tjänstehundar får full äganderätt till landningssidornas innehåll, annonskampanjernas kreativa material och struktur, samt insamlad leadsdata. re:commerce bibehåller äganderätten till den underliggande domänauktoritet samt de gemensamma annonskonton som använts för kampanjdrift.";
+            
+            // Kör första uppdateringen för att rendera allt
+            updateOfferValues();
+
+            // Säkerställ att textareas är rätt storlek vid laddning
+            document.querySelectorAll('textarea.editable-textarea').forEach(autoExpandTextarea);
+        };
+    </script>
+</body>
+</html>
